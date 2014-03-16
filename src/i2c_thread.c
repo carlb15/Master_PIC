@@ -15,17 +15,13 @@ int i2c_lthread(i2c_thread_struct *i2cptr, int msgtype, int length, unsigned cha
 
     if (msgtype == MSGT_I2C_SEND) {
 
-
-
         DEBUG_ON(I2C_SEND);
         DEBUG_OFF(I2C_SEND);
-
 
         // Send a motor command.
         if (i2c_master_send(length, msgbuffer) == 0) {
             ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
         } else {
-
             // Retrieve data from the Motorcontroller PIC.
             ToMainHigh_sendmsg(length, MSGT_I2C_RCV, (void *) msgbuffer);
         }

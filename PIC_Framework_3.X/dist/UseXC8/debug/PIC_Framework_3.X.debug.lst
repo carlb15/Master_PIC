@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC18 LITE Macro Assembler V1.30 build 55553 
-                                                                                               Wed Mar 12 21:05:34 2014
+                                                                                               Sat Mar 15 21:30:43 2014
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 55553
      1                           	processor	18F45J10
@@ -2716,14 +2716,14 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2706  00101A  D038               	goto	l3416
   2707                           
   2708                           ; BSR set to: 1
-  2709                           ;i2c_thread.c: 20: { LATBbits.LATB1 = 1; };
+  2709                           ;i2c_thread.c: 18: { LATBbits.LATB1 = 1; };
   2710  00101C  828A               	bsf	3978,1,c	;volatile
   2711                           
-  2712                           ;i2c_thread.c: 21: { LATBbits.LATB1 = 0; };
+  2712                           ;i2c_thread.c: 19: { LATBbits.LATB1 = 0; };
   2713  00101E  928A               	bcf	3978,1,c	;volatile
   2714                           
   2715                           ; BSR set to: 1
-  2716                           ;i2c_thread.c: 25: if (i2c_master_send(length, msgbuffer) == 0) {
+  2716                           ;i2c_thread.c: 22: if (i2c_master_send(length, msgbuffer) == 0) {
   2717  001020  0101               	movlb	1	; () banked
   2718  001022  0101               	movlb	1	; () banked
   2719  001024  C1A3  F183         	movff	i2c_lthread@msgbuffer+1,i2c_master_send@msg+1
@@ -2738,7 +2738,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2728  00103C  A4D8               	btfss	status,2,c
   2729  00103E  D010               	goto	l3414
   2730                           
-  2731                           ;i2c_thread.c: 26: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+  2731                           ;i2c_thread.c: 23: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
   2732  001040  C19E  F198         	movff	i2c_lthread@msgtype,ToMainHigh_sendmsg@msgtype
   2733  001044  0101               	movlb	1	; () banked
   2734  001046  0101               	movlb	1	; () banked
@@ -2751,11 +2751,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2741  001058  51A0               	movf	i2c_lthread@length& (0+255),w,b
   2742  00105A  ECDC  F00D         	call	_ToMainHigh_sendmsg
   2743                           
-  2744                           ;i2c_thread.c: 27: } else {
+  2744                           ;i2c_thread.c: 24: } else {
   2745  00105E  0012               	return	
   2746  001060                     l3414:
   2747                           
-  2748                           ;i2c_thread.c: 30: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
+  2748                           ;i2c_thread.c: 26: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
   2749  001060  0101               	movlb	1	; () banked
   2750  001062  6FA4               	movwf	??_i2c_lthread& (0+255),b
   2751  001064  0E27               	movlw	39
@@ -2785,7 +2785,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2775  001098  0012               	return	
   2776                           
   2777                           ; BSR set to: 1
-  2778                           ;i2c_thread.c: 35: if (msgbuffer[0] == 0xaa) {
+  2778                           ;i2c_thread.c: 31: if (msgbuffer[0] == 0xaa) {
   2779  00109A  0EAA               	movlw	170
   2780  00109C  C1A2  FFD9         	movff	i2c_lthread@msgbuffer,fsr2l
   2781  0010A0  C1A3  FFDA         	movff	i2c_lthread@msgbuffer+1,fsr2h
@@ -2793,7 +2793,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2783  0010A6  D007               	goto	l3422
   2784                           
   2785                           ; BSR set to: 1
-  2786                           ;i2c_thread.c: 36: length = 5;
+  2786                           ;i2c_thread.c: 32: length = 5;
   2787  0010A8  0E00               	movlw	0
   2788  0010AA  0101               	movlb	1	; () banked
   2789  0010AC  0101               	movlb	1	; () banked
@@ -2804,8 +2804,8 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2794  0010B6                     l3422:
   2795                           
   2796                           ; BSR set to: 1
-  2797                           ;i2c_thread.c: 37: }
-  2798                           ;i2c_thread.c: 39: if (i2c_master_recv(length) == 0) {
+  2797                           ;i2c_thread.c: 33: }
+  2798                           ;i2c_thread.c: 35: if (i2c_master_recv(length) == 0) {
   2799  0010B6  0101               	movlb	1	; () banked
   2800  0010B8  0101               	movlb	1	; () banked
   2801  0010BA  51A0               	movf	i2c_lthread@length& (0+255),w,b
@@ -2814,7 +2814,7 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   2804  0010C2  A4D8               	btfss	status,2,c
   2805  0010C4  0012               	return	
   2806                           
-  2807                           ;i2c_thread.c: 40: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+  2807                           ;i2c_thread.c: 36: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
   2808  0010C6  C19E  F198         	movff	i2c_lthread@msgtype,ToMainHigh_sendmsg@msgtype
   2809  0010CA  0101               	movlb	1	; () banked
   2810  0010CC  0101               	movlb	1	; () banked
@@ -9218,7 +9218,7 @@ Auto Spaces:
     BANK0           128     50     106
     BANK1           256    117     247
     BANK2           256      0      54
-    BANK3           244      0       0
+    BANK3           256      0       0
 
 Pointer List with Targets:
 
@@ -9783,28 +9783,28 @@ Call Graph Tables:
 
  Address spaces:
 Name               Size   Autos  Total    Cost      Usage
-BIGRAM             3F3      0       0      12        0.0%
+BIGRAM             3FF      0       0      13        0.0%
+BITBANK3           100      0       0      11        0.0%
+BANK3              100      0       0      12        0.0%
 BITBANK2           100      0       0       7        0.0%
 BANK2              100      0      36       8       21.1%
-BITBANK1           100      0       0       5        0.0%
+BITBANK1           100      0       0      10        0.0%
 BANK1              100     75      F7       6       96.5%
-BITBANK3            F4      0       0       9        0.0%
-BANK3               F4      0       0      10        0.0%
-BITBANK0            80      0       0       3        0.0%
-BANK0               80     32      6A       4       82.8%
+BITBANK0            80      0       0       4        0.0%
+BANK0               80     32      6A       5       82.8%
 BITCOMRAM           7F      0       0       0        0.0%
 COMRAM              7F     2E      61       1       76.4%
 BITSFR               0      0       0      40        0.0%
 SFR                  0      0       0      40        0.0%
 STACK                0      0       0       2        0.0%
 NULL                 0      0       0       0        0.0%
-ABS                  0      0     1F8      11        0.0%
-DATA                 0      0     1F8      13        0.0%
+ABS                  0      0     1F8       9        0.0%
+DATA                 0      0     1F8       3        0.0%
 CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V1.30 build 55553 
-Symbol Table                                                                                   Wed Mar 12 21:05:34 2014
+Symbol Table                                                                                   Sat Mar 15 21:30:43 2014
 
                   main@uthread_data 01B5            _MQ_Main_Willing_to_block 0025  
              ?i2_ToMainHigh_sendmsg 00CC           __end_of_ToMainLow_recvmsg 1A10  

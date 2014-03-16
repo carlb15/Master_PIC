@@ -4711,71 +4711,71 @@ Version 3.2 HI-TECH Software Intermediate Code
 "16
 [e $ ! == _msgtype -> 40 `i 587  ]
 {
-[; ;i2c_thread.c: 20: { LATBbits.LATB1 = 1; };
-"20
+[; ;i2c_thread.c: 18: { LATBbits.LATB1 = 1; };
+"18
 {
 [e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
 }
-[; ;i2c_thread.c: 21: { LATBbits.LATB1 = 0; };
-"21
+[; ;i2c_thread.c: 19: { LATBbits.LATB1 = 0; };
+"19
 {
 [e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
 }
-[; ;i2c_thread.c: 25: if (i2c_master_send(length, msgbuffer) == 0) {
-"25
+[; ;i2c_thread.c: 22: if (i2c_master_send(length, msgbuffer) == 0) {
+"22
 [e $ ! == -> ( _i2c_master_send (2 , -> _length `uc _msgbuffer `i -> 0 `i 588  ]
 {
-[; ;i2c_thread.c: 26: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
-"26
+[; ;i2c_thread.c: 23: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+"23
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
-"27
+"24
 }
-[; ;i2c_thread.c: 27: } else {
+[; ;i2c_thread.c: 24: } else {
 [e $U 589  ]
 [e :U 588 ]
 {
-[; ;i2c_thread.c: 30: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
-"30
+[; ;i2c_thread.c: 26: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
+"26
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> -> 39 `i `uc -> _msgbuffer `*v ]
-"31
+"27
 }
 [e :U 589 ]
-"32
+"28
 }
-[; ;i2c_thread.c: 31: }
-[; ;i2c_thread.c: 32: } else if (msgtype == 39) {
+[; ;i2c_thread.c: 27: }
+[; ;i2c_thread.c: 28: } else if (msgtype == 39) {
 [e $U 590  ]
 [e :U 587 ]
 [e $ ! == _msgtype -> 39 `i 591  ]
 {
-[; ;i2c_thread.c: 35: if (msgbuffer[0] == 0xaa) {
-"35
+[; ;i2c_thread.c: 31: if (msgbuffer[0] == 0xaa) {
+"31
 [e $ ! == -> *U + _msgbuffer * -> -> 0 `i `x -> -> # *U _msgbuffer `i `x `i -> 170 `i 592  ]
 {
-[; ;i2c_thread.c: 36: length = 5;
-"36
+[; ;i2c_thread.c: 32: length = 5;
+"32
 [e = _length -> 5 `i ]
-"37
+"33
 }
 [e :U 592 ]
-[; ;i2c_thread.c: 37: }
-[; ;i2c_thread.c: 39: if (i2c_master_recv(length) == 0) {
-"39
+[; ;i2c_thread.c: 33: }
+[; ;i2c_thread.c: 35: if (i2c_master_recv(length) == 0) {
+"35
 [e $ ! == -> ( _i2c_master_recv (1 -> _length `uc `i -> 0 `i 593  ]
 {
-[; ;i2c_thread.c: 40: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
-"40
+[; ;i2c_thread.c: 36: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+"36
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
-"41
+"37
 }
 [e :U 593 ]
-"42
+"38
 }
 [e :U 591 ]
-"43
+"39
 [e :U 590 ]
-[; ;i2c_thread.c: 41: }
-[; ;i2c_thread.c: 42: }
-[; ;i2c_thread.c: 43: }
+[; ;i2c_thread.c: 37: }
+[; ;i2c_thread.c: 38: }
+[; ;i2c_thread.c: 39: }
 [e :UE 586 ]
 }

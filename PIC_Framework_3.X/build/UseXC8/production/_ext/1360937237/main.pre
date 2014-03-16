@@ -6020,16 +6020,19 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 15 "../src/my_uart.h"
+# 18 "../src/my_uart.h"
 typedef struct __uart_comm {
 unsigned char Tx_buffer[10];
 unsigned char Rx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char Rx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 unsigned char uartData;
-unsigned char msgtype_flag = 0x0, length_flag = 0x0, checksum_flag = 0x0;
+
+unsigned char msgtype = 0;
+unsigned char msgtype_flag = 0x0, length_flag = 0x0, msg_flag = 0x0, checksum_flag = 0x0;
 unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
 
 void init_uart_recv(uart_comm *);
@@ -6072,18 +6075,6 @@ unsigned char i2c_master_recv(unsigned char);
 void readMessages();
 void i2c_start_communication(void);
 
-# 16 "../src/adc_int_handler.h"
-float voltage;
-unsigned int ADCResult;
-int bufferLen = 0;
-unsigned int previousValue =0;
-
-unsigned char ADCBuffer0[5];
-unsigned char ADCBuffer1[5];
-
-void adc_int_hand(void);
-void start_adc(void);
-
 # 1 "../src/uart_thread.h"
 typedef struct __uart_thread_struct {
 
@@ -6120,7 +6111,7 @@ unsigned char sent_i2c_msg = 0x0;
 int i2c_lthread(i2c_thread_struct *, int, int, unsigned char*);
 
 
-# 30 "../src/main.c"
+# 29 "../src/main.c"
 #pragma config WDTEN = OFF
 #pragma config STVREN = OFF
 
@@ -6145,7 +6136,7 @@ int i2c_lthread(i2c_thread_struct *, int, int, unsigned char*);
 
 #pragma config CCP2MX = DEFAULT
 
-# 190
+# 189
 void main(void) {
 char c;
 signed char length;
@@ -6160,17 +6151,11 @@ timer1_thread_struct t1thread_data;
 timer0_thread_struct t0thread_data;
 i2c_thread_struct i2cthread_data;
 
-unsigned char config1 = 0x00, config2 = 0x00, portconfig = 0x00;
-config1 = 0b10011111 | 0b11111111 | 0b11110011;
-config2 = 0b10000111 | 0b11111111 | 0b11111100;
-
-portconfig = 0b11111111;
-
-# 217
+# 209
 OSCCON = 0x82;
 OSCTUNEbits.PLLEN = 1;
 
-# 237
+# 229
 init_uart_recv(&uc);
 
 
@@ -6187,20 +6172,13 @@ init_queues();
 TRISB = 0x0;
 LATB = 0x0;
 
-# 264
+# 256
 OpenTimer0(0b11111111 & 0b11111111 & 0b11011111 & 0b11110011);
 
-
-OpenADC(0b11011111 & 0b11111111 & 0b11110011,
-0b10000111 & 0b10001111 &
-0b11111111 & 0b11111110 &
-0b11111101, 0b1011);
-SetChanADC(0b10000111);
-
-# 281
+# 268
 OpenTimer1(0b11111111 & 0b11111111 & 0b11111111 & 0b11111101 & 0b11110111 & 0b11111111);
 
-# 288
+# 275
 IPR1bits.TMR1IP = 0;
 
 IPR1bits.RCIP = 0;
@@ -6209,17 +6187,16 @@ IPR1bits.TXIP = 0;
 
 IPR1bits.SSPIP = 1;
 
-IPR1bits.ADIP = 1;
 
 
 
 unsigned char slave_address = 0x9E;
 i2c_configure_master(slave_address);
 
-# 316
+# 302
 PIE1bits.SSPIE = 1;
 
-# 332
+# 318
 OpenUSART(0b01111111 & 0b11111111 & 0b11111110 & 0b11111101 &
 0b11111111 & 0b11111111, 155);
 BAUDCONbits.BRG16 = 0;
@@ -6234,14 +6211,14 @@ bufferFlag = 0x0;
 
 enable_interrupts();
 
-# 364
+# 337
 while (1) {
 
 
 
 block_on_To_msgqueues();
 
-# 376
+# 349
 length = ToMainHigh_recvmsg(10, &msgtype, (void *) msgbuffer);
 
 if (length < 0) {
@@ -6251,8 +6228,11 @@ if (length != -4) {
 }
 } else {
 switch (msgtype) {
-
-# 390
+case 10:
+{
+timer0_lthread(&t0thread_data, msgtype, length, msgbuffer);
+break;
+};
 case 40:
 {
 i2c_lthread(&i2cthread_data, msgtype, length, msgbuffer);
@@ -6273,7 +6253,34 @@ break;
 
 
 length = ToMainLow_recvmsg(10, &msgtype, (void *) msgbuffer);
+if (length < 0) {
 
-# 439
+if (length != -4) {
+
+}
+} else {
+switch (msgtype) {
+case 11:
+{
+timer1_lthread(&t1thread_data, msgtype, length, msgbuffer);
+break;
+};
+case 30:
+{
+uart_lthread(&uthread_data, msgtype, length, msgbuffer);
+break;
+};
+case 32:
+{
+uart_lthread(&uthread_data, msgtype, length, msgbuffer);
+break;
+};
+default:
+{
+
+break;
+};
+};
+}
 }
 }

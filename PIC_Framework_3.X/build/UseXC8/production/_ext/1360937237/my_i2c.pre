@@ -6012,7 +6012,7 @@ extern char * strichr(const char *, int);
 extern char * strrchr(const char *, int);
 extern char * strrichr(const char *, int);
 
-# 15 "../src/my_i2c.c"
+# 14 "../src/my_i2c.c"
 static i2c_comm *ic_ptr;
 
 int length;
@@ -6020,7 +6020,7 @@ unsigned char msgtype;
 unsigned char last_reg_recvd;
 unsigned char msgbuffer[20];
 
-# 51
+# 50
 void i2c_configure_master(unsigned char slave_addr) {
 
 ic_ptr->slave_addr = slave_addr;
@@ -6036,7 +6036,7 @@ ic_ptr->bufferCounterSend = 1;
 
 }
 
-# 78
+# 77
 unsigned char i2c_master_send(unsigned char length, unsigned char *msg) {
 
 
@@ -6069,7 +6069,7 @@ return 1;
 
 }
 
-# 122
+# 121
 unsigned char i2c_master_recv(unsigned char length) {
 
 if (ic_ptr->status != 0x3) {
@@ -6145,7 +6145,7 @@ break;
 
 case 0x10:
 
-# 207
+# 206
 SSPCON2bits.RCEN = 1;
 
 ic_ptr->status = 0xF;
@@ -6231,12 +6231,12 @@ ic_ptr->status = 0x3;
 
 break;
 
-# 296
+# 295
 }
 
 }
 
-# 305
+# 304
 void init_i2c(i2c_comm * ic) {
 ic_ptr = ic;
 ic_ptr->buflen = 0;

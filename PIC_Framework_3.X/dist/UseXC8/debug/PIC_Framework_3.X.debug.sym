@@ -189,7 +189,7 @@ send_msg@qmsg 196 0 BANK1 1
 recv_msg@qmsg 198 0 BANK1 1
 __end_of_block_on_To_msgqueues 15D0 0 CODE 0
 __end_ofi2_recv_msg C02 0 CODE 0
-stackhi 3F3 0 ABS 0
+stackhi 3FF 0 ABS 0
 _check_msg 1BEE 0 CODE 0
 __HcstackBANK0 0 0 ABS 0
 __LcstackBANK0 0 0 ABS 0
@@ -739,7 +739,7 @@ bssBANK2 200 235 BANK2 200 1
 %locals
 dist/UseXC8/debug\PIC_Framework_3.X.debug.obj
 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
-C:\Users\Carl\AppData\Local\Temp\s318.
+C:\Users\Carl\AppData\Local\Temp\s49s.
 3212 1B10 0 CODE 0
 3214 1B10 0 CODE 0
 3217 1B10 0 CODE 0
@@ -902,18 +902,18 @@ C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwmod.c
 ../src/i2c_thread.c
 12 100E 0 CODE 0
 16 100E 0 CODE 0
-20 101C 0 CODE 0
-21 101E 0 CODE 0
-25 1020 0 CODE 0
-26 1040 0 CODE 0
-27 105E 0 CODE 0
-30 1060 0 CODE 0
-32 108C 0 CODE 0
-35 109A 0 CODE 0
-36 10A8 0 CODE 0
-39 10B6 0 CODE 0
-40 10C6 0 CODE 0
-43 10E6 0 CODE 0
+18 101C 0 CODE 0
+19 101E 0 CODE 0
+22 1020 0 CODE 0
+23 1040 0 CODE 0
+24 105E 0 CODE 0
+26 1060 0 CODE 0
+28 108C 0 CODE 0
+31 109A 0 CODE 0
+32 10A8 0 CODE 0
+35 10B6 0 CODE 0
+36 10C6 0 CODE 0
+39 10E6 0 CODE 0
 ../src/my_i2c.c
 77 7F2 0 CODE 0
 80 7F6 0 CODE 0

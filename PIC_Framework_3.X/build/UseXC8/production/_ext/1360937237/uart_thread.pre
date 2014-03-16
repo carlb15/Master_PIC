@@ -6016,16 +6016,19 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 15 "../src/my_uart.h"
+# 18 "../src/my_uart.h"
 typedef struct __uart_comm {
 unsigned char Tx_buffer[10];
 unsigned char Rx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char Rx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 unsigned char uartData;
-unsigned char msgtype_flag = 0x0, length_flag = 0x0, checksum_flag = 0x0;
+
+unsigned char msgtype = 0;
+unsigned char msgtype_flag = 0x0, length_flag = 0x0, msg_flag = 0x0, checksum_flag = 0x0;
 unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
 
 void init_uart_recv(uart_comm *);

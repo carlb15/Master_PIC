@@ -5945,16 +5945,19 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 15 "../src/my_uart.h"
+# 18 "../src/my_uart.h"
 typedef struct __uart_comm {
 unsigned char Tx_buffer[10];
 unsigned char Rx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char Rx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 unsigned char uartData;
-unsigned char msgtype_flag = 0x0, length_flag = 0x0, checksum_flag = 0x0;
+
+unsigned char msgtype = 0;
+unsigned char msgtype_flag = 0x0, length_flag = 0x0, msg_flag = 0x0, checksum_flag = 0x0;
 unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
 
 void init_uart_recv(uart_comm *);
@@ -5974,63 +5977,32 @@ if ((PIR1bits.RCIF)) {
 
 char data = ReadUSART();
 
+# 36
+if (uc_ptr->Rx_buflen == 2) {
 
-
-
-if (!msgtype_flag && data == 0xaa) {
-uc_ptr->Rx_buffer[0] = data;
-msgtype_flag = 0x1;
-sendToSensorPIC_flag = 0x1;
-uc_ptr->Rx_buflen++;
-}
-
-# 48
-else if (sendToSensorPIC_flag && data == 0x03) {
 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-
-uc_ptr->Rx_buflen++;
-}
-
-# 59
-else if (!checksum_flag && uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1] - 1) {
-uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-
-
-checksum_flag = 0x1;
-int i = 0;
-unsigned char checkSum = 0x0;
-
-for (; i < uc_ptr->Rx_buffer[1] - 1; i++) {
-checkSum ^= uc_ptr->Rx_buffer[i];
-}
-
-if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
-
-uc_ptr->Rx_buflen = 0;
-
-
-
-}
-
-# 85
-else if (sendToSensorPIC_flag) {
 uc_ptr->Rx_buflen++;
 
+if (uc_ptr->Rx_buffer[0] == 0xaa && uc_ptr->Rx_buffer[1] == 0 && uc_ptr->Rx_buffer[2] == 0xaa) {
 ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
+{ LATBbits.LATB3 = 1; };
+{ LATBbits.LATB3 = 0; };
 }
 
-msgtype_flag = 0x0;
-checksum_flag = 0x0;
-sendToMotorPIC_flag = 0x0;
-sendToSensorPIC_flag = 0x0;
 uc_ptr->Rx_buflen = 0;
-}
+
+} else {
+uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+uc_ptr->Rx_buflen++;
 }
 
-# 105
+# 213
+}
+
+# 221
 if (USART_Status.OVERRUN_ERROR == 1) {
 
-# 111
+# 227
 RCSTAbits.CREN = 0;
 RCSTAbits.CREN = 1;
 ToMainLow_sendmsg(0, 30, (void *) 0);
@@ -6039,15 +6011,16 @@ ToMainLow_sendmsg(0, 30, (void *) 0);
 
 void uart_send_int_handler() {
 
-if (uc_ptr->Tx_buflen > 10) {
+if (uc_ptr->Tx_buflen == 10) {
 PIE1bits.TX1IE = 0;
 uc_ptr->Tx_buflen = 0;
-} else {
+} else if (uc_ptr->Tx_buflen < uc_ptr->msg_length) {
+WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
+uc_ptr->Tx_buflen++;
 }
 }
 
 void init_uart_recv(uart_comm *uc) {
-
 uc_ptr = uc;
 uc_ptr->Tx_buflen = 0;
 uc_ptr->Rx_buflen = 0;

@@ -5950,16 +5950,19 @@ signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
 
-# 15 "../src/my_uart.h"
+# 18 "../src/my_uart.h"
 typedef struct __uart_comm {
 unsigned char Tx_buffer[10];
 unsigned char Rx_buffer[10];
 unsigned char Tx_buflen;
 unsigned char Rx_buflen;
+unsigned char msg_length;
 } uart_comm;
 
 unsigned char uartData;
-unsigned char msgtype_flag = 0x0, length_flag = 0x0, checksum_flag = 0x0;
+
+unsigned char msgtype = 0;
+unsigned char msgtype_flag = 0x0, length_flag = 0x0, msg_flag = 0x0, checksum_flag = 0x0;
 unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
 
 void init_uart_recv(uart_comm *);
@@ -6014,12 +6017,12 @@ unsigned char ADCBuffer1[5];
 void adc_int_hand(void);
 void start_adc(void);
 
-# 18 "../src/user_interrupts.c"
+# 17 "../src/user_interrupts.c"
 void timer0_int_handler() {
 unsigned int val;
 int length, msgtype;
 
-# 31
+# 27
 WriteTimer0(0);
 
 
@@ -6035,7 +6038,7 @@ ToMainHigh_sendmsg(sizeof (val), 10, (void *) &val);
 void timer1_int_handler() {
 unsigned int result;
 
-# 51
+# 47
 result = ReadTimer1();
 ToMainLow_sendmsg(0, 11, (void *) 0);
 

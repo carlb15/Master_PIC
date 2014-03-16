@@ -10,5 +10,4 @@
 ../src/interrupts.h  \
 ../src/uart_thread.h  \
 ../src/timer0_thread.h  \
-../src/adc_int_handler.h  \
 ../src/timer1_thread.h 
