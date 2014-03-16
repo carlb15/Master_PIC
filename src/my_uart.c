@@ -32,118 +32,122 @@ void uart_recv_int_handler() {
 #endif
 #endif
 
+        if (!msgtype_flag) {
+            msgtype = SENSOR_MSGTYPE;
+        }
+
+        switch (msgtype) {
+
+            case SENSOR_MSGTYPE:
+                if (!msgtype_flag) {
+                    uc_ptr->Rx_buffer[0] = data;
+                    uc_ptr->Rx_buflen++;
+                    msgtype_flag = 1;
+                    sendToSensorPIC_flag = 1;
+                    msgtype = SENSOR_LENGTH;
+                }
+                break;
+
+            case SENSOR_LENGTH:
+                if (msgtype_flag && sendToSensorPIC_flag) {
+                    uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+                    uc_ptr->Rx_buflen++;
+                    msg_flag = 1;
+                    msgtype = CHECKSUM;
+                } else {
+                    msgtype = SENSOR_MSGTYPE;
+                    msgtype_flag = 0;
+                }
+                break;
+
+            case CHECKSUM:
+
+                if (msg_flag) {
+
+                    uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+                    unsigned char checkSum = 0;
+                    unsigned char bufLength = uc_ptr->Rx_buffer[1];
+
+                    // Check for correct checksum.
+                    if (bufLength == 0 && sendToSensorPIC_flag && uc_ptr->Rx_buffer[2] == SENSOR_MSGTYPE) {
+                        checkSum = 0xaa;
+                    } else {
+                        // Check if the entire message was passsed correctly.
+                        int i = 2;
+
+                        for (; i < uc_ptr->Rx_buffer[1] + 2; i++) {
+                            checkSum ^= uc_ptr->Rx_buffer[i];
+                        }
+                    }
+
+
+                    if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
+                        // Drop the message
+                        uc_ptr->Rx_buflen = 0;
+                        // TODO Generate Error Message for Incorrect Message
+                        //                 ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_DATA, (void *) uc_ptr->Rx_buffer);
+                    } else if (sendToSensorPIC_flag) {
+                        uc_ptr->Rx_buflen++;
+                        // Collect Motor Encoder Data
+                        ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_SEND, (void *) uc_ptr->Rx_buffer);
+                    }
+
+                    msgtype_flag = 0;
+                    sendToSensorPIC_flag = 0;
+                    uc_ptr->Rx_buflen = 0;
+                    msg_flag = 0;
+                    msgtype = SENSOR_MSGTYPE;
+                } else {
+                    msgtype = SENSOR_MSGTYPE;
+                    msgtype_flag = 0;
+                    sendToSensorPIC_flag = 0;
+                    uc_ptr->Rx_buflen = 0;
+                    msg_flag = 0;
+                }
+                break;
+
+            case MESSAGE:
+                if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1]) {
+                    msg_flag = 1;
+                    msgtype = CHECKSUM;
+                } else {
+                    msgtype = MESSAGE;
+                }
+                break;
+
+            case MOTOR_COMMAND_MSGTYPE:
+                break;
+
+            case MOTOR_COMMAND_LENGTH:
+                break;
 
 
 
+            default:
+                break;
 
-
-        if (uc_ptr->Rx_buflen == 2) {
-
-            uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-            uc_ptr->Rx_buflen++;
-
-            if (uc_ptr->Rx_buffer[0] == 0xaa && uc_ptr->Rx_buffer[1] == 0 && uc_ptr->Rx_buffer[2] == 0xaa) {
-                ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_SEND, (void *) uc_ptr->Rx_buffer);
-                DEBUG_ON(CHECKSUM_DEBUG);
-                DEBUG_OFF(CHECKSUM_DEBUG);
-            }
-
-            uc_ptr->Rx_buflen = 0;
-
-        } else {
-            uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-            uc_ptr->Rx_buflen++;
         }
 
 
+        // Basic implementation for 0xAA
 
-
-
-        //        switch (msgtype) {
+        //        if (uc_ptr->Rx_buflen == 2) {
         //
-        //            case SENSOR_MSGTYPE:
-        //                if (!msgtype_flag) {
-        //                    uc_ptr->Rx_buffer[0] = data;
-        //                    uc_ptr->Rx_buflen++;
-        //                    msgtype_flag = 1;
-        //                    sendToSensorPIC_flag = 1;
-        //                    msgtype = SENSOR_LENGTH;
-        //                }
-        //                break;
+        //            uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+        //            uc_ptr->Rx_buflen++;
         //
-        //            case SENSOR_LENGTH:
-        //                if (msgtype_flag && sendToSensorPIC_flag) {
-        //                    uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-        //                    uc_ptr->Rx_buflen++;
-        //                    msg_flag = 1;
-        //                    msgtype = CHECKSUM;
-        //                } else {
-        //                    msgtype = SENSOR_MSGTYPE;
-        //                }
+        //            if (uc_ptr->Rx_buffer[0] == 0xaa && uc_ptr->Rx_buffer[1] == 0 && uc_ptr->Rx_buffer[2] == 0xaa) {
+        //                ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_SEND, (void *) uc_ptr->Rx_buffer);
+        //                DEBUG_ON(CHECKSUM_DEBUG);
+        //                DEBUG_OFF(CHECKSUM_DEBUG);
+        //            }
         //
-        //                break;
+        //            uc_ptr->Rx_buflen = 0;
         //
-        //            case MESSAGE:
-        //                if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1]) {
-        //                    msg_flag = 1;
-        //                    msgtype = CHECKSUM;
-        //                } else {
-        //                    msgtype = MESSAGE;
-        //                }
-        //                break;
-        //
-        //            case CHECKSUM:
-        //
-        //                if (msg_flag) {
-        //
-        //                    uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-        //
-        //                    // Check if the entire message was passsed correctly.
-        //                    int i = 0;
-        //                    unsigned char checkSum = 0x0;
-        //
-        //                    for (; i < uc_ptr->Rx_buffer[1] - 1; i++) {
-        //                        checkSum ^= uc_ptr->Rx_buffer[i];
-        //                    }
-        //
-        //                    if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
-        //                        // Drop the message
-        //                        uc_ptr->Rx_buflen = 0;
-        //                        // TODO Generate Error Message for Incorrect Message
-        //                        //                 ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_DATA, (void *) uc_ptr->Rx_buffer);
-        //                    } else if (sendToSensorPIC_flag) {
-        //
-        //                        DEBUG_ON(CHECKSUM_DEBUG);
-        //                        DEBUG_OFF(CHECKSUM_DEBUG);
-        //
-        //
-        //                        uc_ptr->Rx_buflen++;
-        //                        // Collect Motor Encoder Data
-        //                        ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_SEND, (void *) uc_ptr->Rx_buffer);
-        //                    }
-        //
-        //                    msgtype_flag = 0;
-        //                    sendToSensorPIC_flag = 0;
-        //                    uc_ptr->Rx_buflen = 0;
-        //                    msg_flag = 0;
-        //                }
-        //                break;
-        //
-        //            case MOTOR_COMMAND_MSGTYPE:
-        //                break;
-        //
-        //            case MOTOR_COMMAND_LENGTH:
-        //                break;
-        //
-        //
-        //
-        //            default:
-        //                break;
-        //
+        //        } else {
+        //            uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+        //            uc_ptr->Rx_buflen++;
         //        }
-
-
-
 
 
 
