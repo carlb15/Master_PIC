@@ -89,7 +89,7 @@
 [v _uart_send_int_handler uart_send_int_handler `(v  1 e 0 0 ]
 "252
 [v _init_uart_recv init_uart_recv `(v  1 e 0 0 ]
-"258
+"259
 [v _uart_retrieve_buffer uart_retrieve_buffer `(v  1 e 0 0 ]
 "9 C:\Users\Carl\Documents\GitHub\Master_PIC/src/timer0_thread.c
 [v _timer0_lthread timer0_lthread `(i  1 e 2 0 ]
@@ -727,7 +727,7 @@
 [v main@ic ic `S331  1 a 35 82 ]
 [s S325 __uart_comm 23 `[10]uc 1 Tx_buffer 10 0 `[10]uc 1 Rx_buffer 10 10 `uc 1 Tx_buflen 1 20 `uc 1 Rx_buflen 1 21 `uc 1 msg_length 1 22 ]
 "194
-[v main@uc uc `S325  1 a 23 58 ]
+[v main@uc uc `S325  1 a 23 59 ]
 "196
 [v main@msgbuffer msgbuffer `[11]uc  1 a 11 37 ]
 [s S349 __timer1_thread_struct 2 `ui 1 msgcount 2 0 ]
@@ -743,7 +743,7 @@
 "200
 [v main@t0thread_data t0thread_data `S351  1 a 2 48 ]
 "191
-[v main@msgtype msgtype `uc  1 a 1 81 ]
+[v main@msgtype msgtype `uc  1 a 1 58 ]
 [v main@length length `c  1 a 1 57 ]
 "286
 [v main@slave_address slave_address `uc  1 a 1 50 ]
@@ -759,15 +759,15 @@
 [v uart_lthread@msgbuffer msgbuffer `*.39uc  1 p 2 15 ]
 "21
 } 0
-"258 C:\Users\Carl\Documents\GitHub\Master_PIC/src/my_uart.c
+"259 C:\Users\Carl\Documents\GitHub\Master_PIC/src/my_uart.c
 [v _uart_retrieve_buffer uart_retrieve_buffer `(v  1 e 0 0 ]
 {
-"261
+"264
 [v uart_retrieve_buffer@i i `i  1 a 2 7 ]
-"258
+"259
 [v uart_retrieve_buffer@length length `i  1 p 2 0 ]
 [v uart_retrieve_buffer@msgbuffer msgbuffer `*.39uc  1 p 2 2 ]
-"266
+"268
 } 0
 "14 C:\Users\Carl\Documents\GitHub\Master_PIC/src/timer1_thread.c
 [v _timer1_lthread timer1_lthread `(i  1 e 2 0 ]
@@ -821,7 +821,7 @@
 {
 [s S325 __uart_comm 23 `[10]uc 1 Tx_buffer 10 0 `[10]uc 1 Rx_buffer 10 10 `uc 1 Tx_buflen 1 20 `uc 1 Rx_buflen 1 21 `uc 1 msg_length 1 22 ]
 [v init_uart_recv@uc uc `*.39S325  1 p 2 0 ]
-"256
+"257
 } 0
 "6 C:\Users\Carl\Documents\GitHub\Master_PIC/src/timer1_thread.c
 [v _init_timer1_lthread init_timer1_lthread `(v  1 e 0 0 ]

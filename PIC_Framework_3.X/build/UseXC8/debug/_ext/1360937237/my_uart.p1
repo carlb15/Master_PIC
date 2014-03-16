@@ -5019,9 +5019,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;my_uart.c: 241: void uart_send_int_handler() {
 [e :U _uart_send_int_handler ]
 [f ]
-[; ;my_uart.c: 243: if (uc_ptr->Tx_buflen == 10) {
+[; ;my_uart.c: 243: if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
 "243
-[e $ ! == -> . *U _uc_ptr 2 `i -> 10 `i 614  ]
+[e $ ! == -> . *U _uc_ptr 2 `i -> . *U _uc_ptr 4 `i 614  ]
 {
 [; ;my_uart.c: 244: PIE1bits.TX1IE = 0;
 "244
@@ -5031,10 +5031,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
 "246
 }
-[; ;my_uart.c: 246: } else if (uc_ptr->Tx_buflen < uc_ptr->msg_length) {
+[; ;my_uart.c: 246: } else {
 [e $U 615  ]
 [e :U 614 ]
-[e $ ! < -> . *U _uc_ptr 2 `i -> . *U _uc_ptr 4 `i 616  ]
 {
 [; ;my_uart.c: 247: WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
 "247
@@ -5044,11 +5043,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ++ . *U _uc_ptr 2 -> -> 1 `i `uc ]
 "249
 }
-[e :U 616 ]
-"250
 [e :U 615 ]
 [; ;my_uart.c: 249: }
 [; ;my_uart.c: 250: }
+"250
 [e :UE 613 ]
 }
 "252
@@ -5067,45 +5065,51 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;my_uart.c: 255: uc_ptr->Rx_buflen = 0;
 "255
 [e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
-[; ;my_uart.c: 256: }
+[; ;my_uart.c: 256: uc_ptr->msg_length = 0;
 "256
-[e :UE 617 ]
+[e = . *U _uc_ptr 4 -> -> 0 `i `uc ]
+[; ;my_uart.c: 257: }
+"257
+[e :UE 616 ]
 }
-"258
+"259
 [v _uart_retrieve_buffer `(v ~T0 @X0 1 ef2`i`*uc ]
 {
-[; ;my_uart.c: 258: void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
+[; ;my_uart.c: 259: void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
 [e :U _uart_retrieve_buffer ]
 [v _length `i ~T0 @X0 1 r1 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;my_uart.c: 260: uc_ptr->Tx_buflen = length;
-"260
-[e = . *U _uc_ptr 2 -> _length `uc ]
+[; ;my_uart.c: 261: uc_ptr->Tx_buflen = 0;
 "261
-[v _i `i ~T0 @X0 1 a ]
-[; ;my_uart.c: 261: int i = 0;
-[e = _i -> 0 `i ]
-[; ;my_uart.c: 263: for (; i < length + 1; i++) {
-"263
-{
-[e $U 622  ]
-[e :U 619 ]
-{
-[; ;my_uart.c: 264: uc_ptr->Tx_buffer[i] = msgbuffer[i];
+[e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
+[; ;my_uart.c: 262: uc_ptr->msg_length = length;
+"262
+[e = . *U _uc_ptr 4 -> _length `uc ]
 "264
-[e = *U + &U . *U _uc_ptr 0 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux *U + _msgbuffer * -> _i `x -> -> # *U _msgbuffer `i `x ]
+[v _i `i ~T0 @X0 1 a ]
+[; ;my_uart.c: 264: int i = 0;
+[e = _i -> 0 `i ]
+[; ;my_uart.c: 265: for (; i < length + 1; i++) {
 "265
-}
-"263
-[e ++ _i -> 1 `i ]
-[e :U 622 ]
-[e $ < _i + _length -> 1 `i 619  ]
-[e :U 620 ]
-"265
-}
-[; ;my_uart.c: 265: }
-[; ;my_uart.c: 266: }
+{
+[e $U 621  ]
+[e :U 618 ]
+{
+[; ;my_uart.c: 266: uc_ptr->Tx_buffer[i] = msgbuffer[i];
 "266
-[e :UE 618 ]
+[e = *U + &U . *U _uc_ptr 0 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux *U + _msgbuffer * -> _i `x -> -> # *U _msgbuffer `i `x ]
+"267
+}
+"265
+[e ++ _i -> 1 `i ]
+[e :U 621 ]
+[e $ < _i + _length -> 1 `i 618  ]
+[e :U 619 ]
+"267
+}
+[; ;my_uart.c: 267: }
+[; ;my_uart.c: 268: }
+"268
+[e :UE 617 ]
 }

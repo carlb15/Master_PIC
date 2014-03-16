@@ -10,7 +10,7 @@
 #define __USE18F2680 1
 #else
 #ifdef _18F26J50
-#define __USE18F26J50 1
+#define __USE18F26J50 
 #else
 #ifdef _18F46J50
 #define __USE18F46J50 1

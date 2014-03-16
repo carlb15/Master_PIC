@@ -240,10 +240,10 @@ void uart_recv_int_handler() {
 
 void uart_send_int_handler() {
 
-    if (uc_ptr->Tx_buflen == MAXUARTBUF) {
+    if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
         PIE1bits.TX1IE = 0; // Clear TXIE to end write.
         uc_ptr->Tx_buflen = 0;
-    } else if (uc_ptr->Tx_buflen < uc_ptr->msg_length) {
+    } else {
         WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
         uc_ptr->Tx_buflen++;
     }
@@ -253,13 +253,15 @@ void init_uart_recv(uart_comm *uc) {
     uc_ptr = uc;
     uc_ptr->Tx_buflen = 0;
     uc_ptr->Rx_buflen = 0;
+    uc_ptr->msg_length = 0;
 }
 
 void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
 
-    uc_ptr->Tx_buflen = length;
-    int i = 0;
+    uc_ptr->Tx_buflen = 0;
+    uc_ptr->msg_length = length;
 
+    int i = 0;
     for (; i < length + 1; i++) {
         uc_ptr->Tx_buffer[i] = msgbuffer[i];
     }
