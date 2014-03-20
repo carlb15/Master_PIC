@@ -5980,8 +5980,10 @@ char data = ReadUSART();
 
 
 
-if (!msgtype_flag) {
+if (!msgtype_flag && data == 0xaa) {
 msgtype = 0xaa;
+} else if (!msgtype_flag && data == 0x01) {
+msgtype = 0x01;
 }
 
 switch (msgtype) {
@@ -5993,6 +5995,16 @@ uc_ptr->Rx_buflen++;
 msgtype_flag = 1;
 sendToSensorPIC_flag = 1;
 msgtype = 0;
+}
+break;
+
+case 0x01:
+if (!msgtype_flag) {
+uc_ptr->Rx_buffer[0] = data;
+uc_ptr->Rx_buflen++;
+msgtype_flag = 1;
+sendToMotorPIC_flag = 1;
+msgtype = 3;
 }
 break;
 
@@ -6008,10 +6020,32 @@ msgtype_flag = 0;
 }
 break;
 
+case 3:
+if (msgtype_flag && sendToMotorPIC_flag) {
+uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+uc_ptr->Rx_buflen++;
+msgtype = 4;
+} else {
+msgtype = 0x01;
+msgtype_flag = 0;
+}
+break;
+
+case 4:
+if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1] + 1) {
+uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+uc_ptr->Rx_buflen++;
+msg_flag = 1;
+msgtype = 5;
+} else {
+uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+uc_ptr->Rx_buflen++;
+msgtype = 4;
+}
+break;
+
 case 5:
-
 if (msg_flag) {
-
 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
 unsigned char checkSum = 0;
 unsigned char bufLength = uc_ptr->Rx_buffer[1];
@@ -6021,13 +6055,11 @@ if (bufLength == 0 && sendToSensorPIC_flag && uc_ptr->Rx_buffer[2] == 0xaa) {
 checkSum = 0xaa;
 } else {
 
-int i = 2;
-
+int i = 0;
 for (; i < uc_ptr->Rx_buffer[1] + 2; i++) {
 checkSum ^= uc_ptr->Rx_buffer[i];
 }
 }
-
 
 if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
 
@@ -6038,51 +6070,30 @@ uc_ptr->Rx_buflen = 0;
 uc_ptr->Rx_buflen++;
 
 ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
+} else if (sendToMotorPIC_flag) {
+uc_ptr->Rx_buflen++;
+
+ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
+}
 }
 
 msgtype_flag = 0;
 sendToSensorPIC_flag = 0;
+sendToMotorPIC_flag = 0;
 uc_ptr->Rx_buflen = 0;
 msg_flag = 0;
-msgtype = 0xaa;
-} else {
-msgtype = 0xaa;
-msgtype_flag = 0;
-sendToSensorPIC_flag = 0;
-uc_ptr->Rx_buflen = 0;
-msg_flag = 0;
-}
 break;
-
-case 4:
-if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1]) {
-msg_flag = 1;
-msgtype = 5;
-} else {
-msgtype = 4;
-}
-break;
-
-case 0x01:
-break;
-
-case 3:
-break;
-
-
 
 default:
 break;
 
 }
-
-# 221
 }
 
-# 229
+# 151
 if (USART_Status.OVERRUN_ERROR == 1) {
 
-# 235
+# 157
 RCSTAbits.CREN = 0;
 RCSTAbits.CREN = 1;
 ToMainLow_sendmsg(0, 30, (void *) 0);

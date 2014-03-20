@@ -56,7 +56,4 @@
 #define I2C_MESSAGE_LENGTH 5
 #define SENSOR_MSGTYPE 0xaa
 
-
-
 #endif
-

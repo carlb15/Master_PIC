@@ -6056,13 +6056,7 @@ void i2c_start_communication(void);
 # 12 "../src/i2c_thread.c"
 int i2c_lthread(i2c_thread_struct *i2cptr, int msgtype, int length, unsigned char* msgbuffer) {
 
-
-
 if (msgtype == 40) {
-
-{ LATBbits.LATB1 = 1; };
-{ LATBbits.LATB1 = 0; };
-
 
 if (i2c_master_send(length, msgbuffer) == 0) {
 ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);

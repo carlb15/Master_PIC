@@ -4718,398 +4718,466 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _data `uc ~T0 @X0 1 a ]
 [; ;my_uart.c: 30: char data = ReadUSART();
 [e = _data ( _ReadUSART ..  ]
-[; ;my_uart.c: 35: if (!msgtype_flag) {
+[; ;my_uart.c: 35: if (!msgtype_flag && data == 0xaa) {
 "35
-[e $ ! ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i 586  ]
+[e $ ! && ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i == -> _data `i -> 170 `i 586  ]
 {
 [; ;my_uart.c: 36: msgtype = 0xaa;
 "36
 [e = _msgtype -> -> 170 `i `uc ]
 "37
 }
-[e :U 586 ]
-[; ;my_uart.c: 37: }
-[; ;my_uart.c: 39: switch (msgtype) {
-"39
-[e $U 588  ]
-{
-[; ;my_uart.c: 41: case 0xaa:
-"41
-[e :U 589 ]
-[; ;my_uart.c: 42: if (!msgtype_flag) {
-"42
-[e $ ! ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i 590  ]
-{
-[; ;my_uart.c: 43: uc_ptr->Rx_buffer[0] = data;
-"43
-[e = *U + &U . *U _uc_ptr 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
-[; ;my_uart.c: 44: uc_ptr->Rx_buflen++;
-"44
-[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
-[; ;my_uart.c: 45: msgtype_flag = 1;
-"45
-[e = _msgtype_flag -> -> 1 `i `uc ]
-[; ;my_uart.c: 46: sendToSensorPIC_flag = 1;
-"46
-[e = _sendToSensorPIC_flag -> -> 1 `i `uc ]
-[; ;my_uart.c: 47: msgtype = 0;
-"47
-[e = _msgtype -> -> 0 `i `uc ]
-"48
-}
-[e :U 590 ]
-[; ;my_uart.c: 48: }
-[; ;my_uart.c: 49: break;
-"49
+[; ;my_uart.c: 37: } else if (!msgtype_flag && data == 0x01) {
 [e $U 587  ]
-[; ;my_uart.c: 51: case 0:
-"51
-[e :U 591 ]
-[; ;my_uart.c: 52: if (msgtype_flag && sendToSensorPIC_flag) {
-"52
-[e $ ! && != -> _msgtype_flag `i -> -> -> 0 `i `uc `i != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i 592  ]
+[e :U 586 ]
+[e $ ! && ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i == -> _data `i -> 1 `i 588  ]
 {
-[; ;my_uart.c: 53: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-"53
-[e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
-[; ;my_uart.c: 54: uc_ptr->Rx_buflen++;
-"54
-[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
-[; ;my_uart.c: 55: msg_flag = 1;
-"55
-[e = _msg_flag -> -> 1 `i `uc ]
-[; ;my_uart.c: 56: msgtype = 5;
-"56
-[e = _msgtype -> -> 5 `i `uc ]
-"57
+[; ;my_uart.c: 38: msgtype = 0x01;
+"38
+[e = _msgtype -> -> 1 `i `uc ]
+"39
 }
-[; ;my_uart.c: 57: } else {
-[e $U 593  ]
-[e :U 592 ]
+[e :U 588 ]
+"41
+[e :U 587 ]
+[; ;my_uart.c: 39: }
+[; ;my_uart.c: 41: switch (msgtype) {
+[e $U 590  ]
 {
-[; ;my_uart.c: 58: msgtype = 0xaa;
+[; ;my_uart.c: 43: case 0xaa:
+"43
+[e :U 591 ]
+[; ;my_uart.c: 44: if (!msgtype_flag) {
+"44
+[e $ ! ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i 592  ]
+{
+[; ;my_uart.c: 45: uc_ptr->Rx_buffer[0] = data;
+"45
+[e = *U + &U . *U _uc_ptr 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 46: uc_ptr->Rx_buflen++;
+"46
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 47: msgtype_flag = 1;
+"47
+[e = _msgtype_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 48: sendToSensorPIC_flag = 1;
+"48
+[e = _sendToSensorPIC_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 49: msgtype = 0;
+"49
+[e = _msgtype -> -> 0 `i `uc ]
+"50
+}
+[e :U 592 ]
+[; ;my_uart.c: 50: }
+[; ;my_uart.c: 51: break;
+"51
+[e $U 589  ]
+[; ;my_uart.c: 53: case 0x01:
+"53
+[e :U 593 ]
+[; ;my_uart.c: 54: if (!msgtype_flag) {
+"54
+[e $ ! ! != -> _msgtype_flag `i -> -> -> 0 `i `uc `i 594  ]
+{
+[; ;my_uart.c: 55: uc_ptr->Rx_buffer[0] = data;
+"55
+[e = *U + &U . *U _uc_ptr 1 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 56: uc_ptr->Rx_buflen++;
+"56
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 57: msgtype_flag = 1;
+"57
+[e = _msgtype_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 58: sendToMotorPIC_flag = 1;
 "58
-[e = _msgtype -> -> 170 `i `uc ]
-[; ;my_uart.c: 59: msgtype_flag = 0;
+[e = _sendToMotorPIC_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 59: msgtype = 3;
 "59
-[e = _msgtype_flag -> -> 0 `i `uc ]
+[e = _msgtype -> -> 3 `i `uc ]
 "60
 }
-[e :U 593 ]
+[e :U 594 ]
 [; ;my_uart.c: 60: }
 [; ;my_uart.c: 61: break;
 "61
-[e $U 587  ]
-[; ;my_uart.c: 63: case 5:
+[e $U 589  ]
+[; ;my_uart.c: 63: case 0:
 "63
-[e :U 594 ]
-[; ;my_uart.c: 65: if (msg_flag) {
+[e :U 595 ]
+[; ;my_uart.c: 64: if (msgtype_flag && sendToSensorPIC_flag) {
+"64
+[e $ ! && != -> _msgtype_flag `i -> -> -> 0 `i `uc `i != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i 596  ]
+{
+[; ;my_uart.c: 65: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
 "65
-[e $ ! != -> _msg_flag `i -> -> -> 0 `i `uc `i 595  ]
-{
-[; ;my_uart.c: 67: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-"67
 [e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 66: uc_ptr->Rx_buflen++;
+"66
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 67: msg_flag = 1;
+"67
+[e = _msg_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 68: msgtype = 5;
 "68
-[v _checkSum `uc ~T0 @X0 1 a ]
-[; ;my_uart.c: 68: unsigned char checkSum = 0;
-[e = _checkSum -> -> 0 `i `uc ]
+[e = _msgtype -> -> 5 `i `uc ]
 "69
-[v _bufLength `uc ~T0 @X0 1 a ]
-[; ;my_uart.c: 69: unsigned char bufLength = uc_ptr->Rx_buffer[1];
-[e = _bufLength *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux ]
-[; ;my_uart.c: 72: if (bufLength == 0 && sendToSensorPIC_flag && uc_ptr->Rx_buffer[2] == 0xaa) {
-"72
-[e $ ! && && == -> _bufLength `i -> 0 `i != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i == -> *U + &U . *U _uc_ptr 1 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i -> 170 `i 596  ]
-{
-[; ;my_uart.c: 73: checkSum = 0xaa;
-"73
-[e = _checkSum -> -> 170 `i `uc ]
-"74
 }
-[; ;my_uart.c: 74: } else {
+[; ;my_uart.c: 69: } else {
 [e $U 597  ]
 [e :U 596 ]
 {
-"76
-[v _i `i ~T0 @X0 1 a ]
-[; ;my_uart.c: 76: int i = 2;
-[e = _i -> 2 `i ]
-[; ;my_uart.c: 78: for (; i < uc_ptr->Rx_buffer[1] + 2; i++) {
-"78
-{
-[e $U 601  ]
-[e :U 598 ]
-{
-[; ;my_uart.c: 79: checkSum ^= uc_ptr->Rx_buffer[i];
-"79
-[e =^ _checkSum *U + &U . *U _uc_ptr 1 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux ]
-"80
-}
-"78
-[e ++ _i -> 1 `i ]
-[e :U 601 ]
-[e $ < _i + -> *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i -> 2 `i 598  ]
-[e :U 599 ]
-"80
-}
-"81
+[; ;my_uart.c: 70: msgtype = 0xaa;
+"70
+[e = _msgtype -> -> 170 `i `uc ]
+[; ;my_uart.c: 71: msgtype_flag = 0;
+"71
+[e = _msgtype_flag -> -> 0 `i `uc ]
+"72
 }
 [e :U 597 ]
-[; ;my_uart.c: 80: }
-[; ;my_uart.c: 81: }
-[; ;my_uart.c: 84: if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
-"84
-[e $ ! != -> _checkSum `i -> *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i 602  ]
+[; ;my_uart.c: 72: }
+[; ;my_uart.c: 73: break;
+"73
+[e $U 589  ]
+[; ;my_uart.c: 75: case 3:
+"75
+[e :U 598 ]
+[; ;my_uart.c: 76: if (msgtype_flag && sendToMotorPIC_flag) {
+"76
+[e $ ! && != -> _msgtype_flag `i -> -> -> 0 `i `uc `i != -> _sendToMotorPIC_flag `i -> -> -> 0 `i `uc `i 599  ]
 {
-[; ;my_uart.c: 86: uc_ptr->Rx_buflen = 0;
-"86
-[e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
-"89
+[; ;my_uart.c: 77: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+"77
+[e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 78: uc_ptr->Rx_buflen++;
+"78
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 79: msgtype = 4;
+"79
+[e = _msgtype -> -> 4 `i `uc ]
+"80
 }
-[; ;my_uart.c: 89: } else if (sendToSensorPIC_flag) {
+[; ;my_uart.c: 80: } else {
+[e $U 600  ]
+[e :U 599 ]
+{
+[; ;my_uart.c: 81: msgtype = 0x01;
+"81
+[e = _msgtype -> -> 1 `i `uc ]
+[; ;my_uart.c: 82: msgtype_flag = 0;
+"82
+[e = _msgtype_flag -> -> 0 `i `uc ]
+"83
+}
+[e :U 600 ]
+[; ;my_uart.c: 83: }
+[; ;my_uart.c: 84: break;
+"84
+[e $U 589  ]
+[; ;my_uart.c: 86: case 4:
+"86
+[e :U 601 ]
+[; ;my_uart.c: 87: if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1] + 1) {
+"87
+[e $ ! == -> . *U _uc_ptr 3 `i + -> *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i -> 1 `i 602  ]
+{
+[; ;my_uart.c: 88: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+"88
+[e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 89: uc_ptr->Rx_buflen++;
+"89
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 90: msg_flag = 1;
+"90
+[e = _msg_flag -> -> 1 `i `uc ]
+[; ;my_uart.c: 91: msgtype = 5;
+"91
+[e = _msgtype -> -> 5 `i `uc ]
+"92
+}
+[; ;my_uart.c: 92: } else {
 [e $U 603  ]
 [e :U 602 ]
-[e $ ! != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i 604  ]
 {
-[; ;my_uart.c: 90: uc_ptr->Rx_buflen++;
-"90
-[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
-[; ;my_uart.c: 92: ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
-"92
-[e ( _ToMainHigh_sendmsg (3 , , . *U _uc_ptr 3 -> -> 40 `i `uc -> &U . *U _uc_ptr 1 `*v ]
+[; ;my_uart.c: 93: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
 "93
-}
-[e :U 604 ]
+[e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
+[; ;my_uart.c: 94: uc_ptr->Rx_buflen++;
+"94
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 95: msgtype = 4;
 "95
-[e :U 603 ]
-[; ;my_uart.c: 93: }
-[; ;my_uart.c: 95: msgtype_flag = 0;
-[e = _msgtype_flag -> -> 0 `i `uc ]
-[; ;my_uart.c: 96: sendToSensorPIC_flag = 0;
+[e = _msgtype -> -> 4 `i `uc ]
 "96
-[e = _sendToSensorPIC_flag -> -> 0 `i `uc ]
-[; ;my_uart.c: 97: uc_ptr->Rx_buflen = 0;
+}
+[e :U 603 ]
+[; ;my_uart.c: 96: }
+[; ;my_uart.c: 97: break;
 "97
-[e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
-[; ;my_uart.c: 98: msg_flag = 0;
-"98
-[e = _msg_flag -> -> 0 `i `uc ]
-[; ;my_uart.c: 99: msgtype = 0xaa;
+[e $U 589  ]
+[; ;my_uart.c: 99: case 5:
 "99
-[e = _msgtype -> -> 170 `i `uc ]
+[e :U 604 ]
+[; ;my_uart.c: 100: if (msg_flag) {
 "100
-}
-[; ;my_uart.c: 100: } else {
-[e $U 605  ]
-[e :U 595 ]
+[e $ ! != -> _msg_flag `i -> -> -> 0 `i `uc `i 605  ]
 {
-[; ;my_uart.c: 101: msgtype = 0xaa;
+[; ;my_uart.c: 101: uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
 "101
-[e = _msgtype -> -> 170 `i `uc ]
-[; ;my_uart.c: 102: msgtype_flag = 0;
+[e = *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux _data ]
 "102
-[e = _msgtype_flag -> -> 0 `i `uc ]
-[; ;my_uart.c: 103: sendToSensorPIC_flag = 0;
+[v _checkSum `uc ~T0 @X0 1 a ]
+[; ;my_uart.c: 102: unsigned char checkSum = 0;
+[e = _checkSum -> -> 0 `i `uc ]
 "103
-[e = _sendToSensorPIC_flag -> -> 0 `i `uc ]
-[; ;my_uart.c: 104: uc_ptr->Rx_buflen = 0;
-"104
-[e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
-[; ;my_uart.c: 105: msg_flag = 0;
-"105
-[e = _msg_flag -> -> 0 `i `uc ]
+[v _bufLength `uc ~T0 @X0 1 a ]
+[; ;my_uart.c: 103: unsigned char bufLength = uc_ptr->Rx_buffer[1];
+[e = _bufLength *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux ]
+[; ;my_uart.c: 106: if (bufLength == 0 && sendToSensorPIC_flag && uc_ptr->Rx_buffer[2] == 0xaa) {
 "106
-}
-[e :U 605 ]
-[; ;my_uart.c: 106: }
-[; ;my_uart.c: 107: break;
-"107
-[e $U 587  ]
-[; ;my_uart.c: 109: case 4:
-"109
-[e :U 606 ]
-[; ;my_uart.c: 110: if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1]) {
-"110
-[e $ ! == -> . *U _uc_ptr 3 `i -> *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i 607  ]
+[e $ ! && && == -> _bufLength `i -> 0 `i != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i == -> *U + &U . *U _uc_ptr 1 * -> -> -> 2 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i -> 170 `i 606  ]
 {
-[; ;my_uart.c: 111: msg_flag = 1;
+[; ;my_uart.c: 107: checkSum = 0xaa;
+"107
+[e = _checkSum -> -> 170 `i `uc ]
+"108
+}
+[; ;my_uart.c: 108: } else {
+[e $U 607  ]
+[e :U 606 ]
+{
+"110
+[v _i `i ~T0 @X0 1 a ]
+[; ;my_uart.c: 110: int i = 0;
+[e = _i -> 0 `i ]
+[; ;my_uart.c: 111: for (; i < uc_ptr->Rx_buffer[1] + 2; i++) {
 "111
-[e = _msg_flag -> -> 1 `i `uc ]
-[; ;my_uart.c: 112: msgtype = 5;
+{
+[e $U 611  ]
+[e :U 608 ]
+{
+[; ;my_uart.c: 112: checkSum ^= uc_ptr->Rx_buffer[i];
 "112
-[e = _msgtype -> -> 5 `i `uc ]
+[e =^ _checkSum *U + &U . *U _uc_ptr 1 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux ]
 "113
 }
-[; ;my_uart.c: 113: } else {
-[e $U 608  ]
-[e :U 607 ]
-{
-[; ;my_uart.c: 114: msgtype = 4;
-"114
-[e = _msgtype -> -> 4 `i `uc ]
-"115
-}
-[e :U 608 ]
-[; ;my_uart.c: 115: }
-[; ;my_uart.c: 116: break;
-"116
-[e $U 587  ]
-[; ;my_uart.c: 118: case 0x01:
-"118
-[e :U 609 ]
-[; ;my_uart.c: 119: break;
-"119
-[e $U 587  ]
-[; ;my_uart.c: 121: case 3:
-"121
-[e :U 610 ]
-[; ;my_uart.c: 122: break;
-"122
-[e $U 587  ]
-[; ;my_uart.c: 126: default:
-"126
+"111
+[e ++ _i -> 1 `i ]
 [e :U 611 ]
-[; ;my_uart.c: 127: break;
-"127
-[e $U 587  ]
-"129
+[e $ < _i + -> *U + &U . *U _uc_ptr 1 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i -> 2 `i 608  ]
+[e :U 609 ]
+"113
 }
-[; ;my_uart.c: 129: }
-[e $U 587  ]
-"39
-[e :U 588 ]
-[e [\ _msgtype , $ -> -> 170 `i `uc 589
- , $ -> -> 0 `i `uc 591
- , $ -> -> 5 `i `uc 594
- , $ -> -> 4 `i `uc 606
- , $ -> -> 1 `i `uc 609
- , $ -> -> 3 `i `uc 610
- 611 ]
-"129
-[e :U 587 ]
-"221
+"114
 }
-[e :U 585 ]
-[; ;my_uart.c: 221: }
-[; ;my_uart.c: 229: if (USART_Status.OVERRUN_ERROR == 1) {
-"229
-[e $ ! == -> . . _USART_Status 1 3 `i -> 1 `i 612  ]
+[e :U 607 ]
+[; ;my_uart.c: 113: }
+[; ;my_uart.c: 114: }
+[; ;my_uart.c: 116: if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen]) {
+"116
+[e $ ! != -> _checkSum `i -> *U + &U . *U _uc_ptr 1 * -> . *U _uc_ptr 3 `ux -> -> # *U &U . *U _uc_ptr 1 `ui `ux `i 612  ]
 {
-[; ;my_uart.c: 235: RCSTAbits.CREN = 0;
-"235
-[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
-[; ;my_uart.c: 236: RCSTAbits.CREN = 1;
-"236
-[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-[; ;my_uart.c: 237: ToMainLow_sendmsg(0, 30, (void *) 0);
-"237
-[e ( _ToMainLow_sendmsg (3 , , -> -> 0 `i `uc -> -> 30 `i `uc -> -> 0 `i `*v ]
-"238
+[; ;my_uart.c: 118: uc_ptr->Rx_buflen = 0;
+"118
+[e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
+"121
 }
+[; ;my_uart.c: 121: } else if (sendToSensorPIC_flag) {
+[e $U 613  ]
 [e :U 612 ]
-[; ;my_uart.c: 238: }
-[; ;my_uart.c: 239: }
-"239
-[e :UE 584 ]
-}
-"241
-[v _uart_send_int_handler `(v ~T0 @X0 1 ef ]
+[e $ ! != -> _sendToSensorPIC_flag `i -> -> -> 0 `i `uc `i 614  ]
 {
-[; ;my_uart.c: 241: void uart_send_int_handler() {
-[e :U _uart_send_int_handler ]
-[f ]
-[; ;my_uart.c: 243: if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
-"243
-[e $ ! == -> . *U _uc_ptr 2 `i -> . *U _uc_ptr 4 `i 614  ]
-{
-[; ;my_uart.c: 244: PIE1bits.TX1IE = 0;
-"244
-[e = . . _PIE1bits 1 2 -> -> 0 `i `uc ]
-[; ;my_uart.c: 245: uc_ptr->Tx_buflen = 0;
-"245
-[e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
-"246
+[; ;my_uart.c: 122: uc_ptr->Rx_buflen++;
+"122
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 124: ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
+"124
+[e ( _ToMainHigh_sendmsg (3 , , . *U _uc_ptr 3 -> -> 40 `i `uc -> &U . *U _uc_ptr 1 `*v ]
+"125
 }
-[; ;my_uart.c: 246: } else {
+[; ;my_uart.c: 125: } else if (sendToMotorPIC_flag) {
 [e $U 615  ]
 [e :U 614 ]
+[e $ ! != -> _sendToMotorPIC_flag `i -> -> -> 0 `i `uc `i 616  ]
 {
-[; ;my_uart.c: 247: WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
-"247
-[e ( _WriteUSART (1 *U + &U . *U _uc_ptr 0 * -> . *U _uc_ptr 2 `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux ]
-[; ;my_uart.c: 248: uc_ptr->Tx_buflen++;
-"248
-[e ++ . *U _uc_ptr 2 -> -> 1 `i `uc ]
-"249
+[; ;my_uart.c: 126: uc_ptr->Rx_buflen++;
+"126
+[e ++ . *U _uc_ptr 3 -> -> 1 `i `uc ]
+[; ;my_uart.c: 128: ToMainHigh_sendmsg(uc_ptr->Rx_buflen, 40, (void *) uc_ptr->Rx_buffer);
+"128
+[e ( _ToMainHigh_sendmsg (3 , , . *U _uc_ptr 3 -> -> 40 `i `uc -> &U . *U _uc_ptr 1 `*v ]
+"129
 }
+[e :U 616 ]
+"130
 [e :U 615 ]
-[; ;my_uart.c: 249: }
-[; ;my_uart.c: 250: }
-"250
-[e :UE 613 ]
+[e :U 613 ]
 }
-"252
+[e :U 605 ]
+[; ;my_uart.c: 129: }
+[; ;my_uart.c: 130: }
+[; ;my_uart.c: 132: msgtype_flag = 0;
+"132
+[e = _msgtype_flag -> -> 0 `i `uc ]
+[; ;my_uart.c: 133: sendToSensorPIC_flag = 0;
+"133
+[e = _sendToSensorPIC_flag -> -> 0 `i `uc ]
+[; ;my_uart.c: 134: sendToMotorPIC_flag = 0;
+"134
+[e = _sendToMotorPIC_flag -> -> 0 `i `uc ]
+[; ;my_uart.c: 135: uc_ptr->Rx_buflen = 0;
+"135
+[e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
+[; ;my_uart.c: 136: msg_flag = 0;
+"136
+[e = _msg_flag -> -> 0 `i `uc ]
+[; ;my_uart.c: 137: break;
+"137
+[e $U 589  ]
+[; ;my_uart.c: 139: default:
+"139
+[e :U 617 ]
+[; ;my_uart.c: 140: break;
+"140
+[e $U 589  ]
+"142
+}
+[; ;my_uart.c: 142: }
+[e $U 589  ]
+"41
+[e :U 590 ]
+[e [\ _msgtype , $ -> -> 170 `i `uc 591
+ , $ -> -> 1 `i `uc 593
+ , $ -> -> 0 `i `uc 595
+ , $ -> -> 3 `i `uc 598
+ , $ -> -> 4 `i `uc 601
+ , $ -> -> 5 `i `uc 604
+ 617 ]
+"142
+[e :U 589 ]
+"143
+}
+[e :U 585 ]
+[; ;my_uart.c: 143: }
+[; ;my_uart.c: 151: if (USART_Status.OVERRUN_ERROR == 1) {
+"151
+[e $ ! == -> . . _USART_Status 1 3 `i -> 1 `i 618  ]
+{
+[; ;my_uart.c: 157: RCSTAbits.CREN = 0;
+"157
+[e = . . _RCSTAbits 0 4 -> -> 0 `i `uc ]
+[; ;my_uart.c: 158: RCSTAbits.CREN = 1;
+"158
+[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
+[; ;my_uart.c: 159: ToMainLow_sendmsg(0, 30, (void *) 0);
+"159
+[e ( _ToMainLow_sendmsg (3 , , -> -> 0 `i `uc -> -> 30 `i `uc -> -> 0 `i `*v ]
+"160
+}
+[e :U 618 ]
+[; ;my_uart.c: 160: }
+[; ;my_uart.c: 161: }
+"161
+[e :UE 584 ]
+}
+"163
+[v _uart_send_int_handler `(v ~T0 @X0 1 ef ]
+{
+[; ;my_uart.c: 163: void uart_send_int_handler() {
+[e :U _uart_send_int_handler ]
+[f ]
+[; ;my_uart.c: 165: if (uc_ptr->Tx_buflen == uc_ptr->msg_length) {
+"165
+[e $ ! == -> . *U _uc_ptr 2 `i -> . *U _uc_ptr 4 `i 620  ]
+{
+[; ;my_uart.c: 166: PIE1bits.TX1IE = 0;
+"166
+[e = . . _PIE1bits 1 2 -> -> 0 `i `uc ]
+[; ;my_uart.c: 167: uc_ptr->Tx_buflen = 0;
+"167
+[e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
+"168
+}
+[; ;my_uart.c: 168: } else {
+[e $U 621  ]
+[e :U 620 ]
+{
+[; ;my_uart.c: 169: WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
+"169
+[e ( _WriteUSART (1 *U + &U . *U _uc_ptr 0 * -> . *U _uc_ptr 2 `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux ]
+[; ;my_uart.c: 170: uc_ptr->Tx_buflen++;
+"170
+[e ++ . *U _uc_ptr 2 -> -> 1 `i `uc ]
+"171
+}
+[e :U 621 ]
+[; ;my_uart.c: 171: }
+[; ;my_uart.c: 172: }
+"172
+[e :UE 619 ]
+}
+"174
 [v _init_uart_recv `(v ~T0 @X0 1 ef1`*S583 ]
 {
-[; ;my_uart.c: 252: void init_uart_recv(uart_comm *uc) {
+[; ;my_uart.c: 174: void init_uart_recv(uart_comm *uc) {
 [e :U _init_uart_recv ]
 [v _uc `*S583 ~T0 @X0 1 r1 ]
 [f ]
-[; ;my_uart.c: 253: uc_ptr = uc;
-"253
+[; ;my_uart.c: 175: uc_ptr = uc;
+"175
 [e = _uc_ptr _uc ]
-[; ;my_uart.c: 254: uc_ptr->Tx_buflen = 0;
-"254
+[; ;my_uart.c: 176: uc_ptr->Tx_buflen = 0;
+"176
 [e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
-[; ;my_uart.c: 255: uc_ptr->Rx_buflen = 0;
-"255
+[; ;my_uart.c: 177: uc_ptr->Rx_buflen = 0;
+"177
 [e = . *U _uc_ptr 3 -> -> 0 `i `uc ]
-[; ;my_uart.c: 256: uc_ptr->msg_length = 0;
-"256
+[; ;my_uart.c: 178: uc_ptr->msg_length = 0;
+"178
 [e = . *U _uc_ptr 4 -> -> 0 `i `uc ]
-[; ;my_uart.c: 257: }
-"257
-[e :UE 616 ]
+[; ;my_uart.c: 179: }
+"179
+[e :UE 622 ]
 }
-"259
+"181
 [v _uart_retrieve_buffer `(v ~T0 @X0 1 ef2`i`*uc ]
 {
-[; ;my_uart.c: 259: void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
+[; ;my_uart.c: 181: void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
 [e :U _uart_retrieve_buffer ]
 [v _length `i ~T0 @X0 1 r1 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;my_uart.c: 261: uc_ptr->Tx_buflen = 0;
-"261
+[; ;my_uart.c: 183: uc_ptr->Tx_buflen = 0;
+"183
 [e = . *U _uc_ptr 2 -> -> 0 `i `uc ]
-[; ;my_uart.c: 262: uc_ptr->msg_length = length;
-"262
+[; ;my_uart.c: 184: uc_ptr->msg_length = length;
+"184
 [e = . *U _uc_ptr 4 -> _length `uc ]
-"264
+"186
 [v _i `i ~T0 @X0 1 a ]
-[; ;my_uart.c: 264: int i = 0;
+[; ;my_uart.c: 186: int i = 0;
 [e = _i -> 0 `i ]
-[; ;my_uart.c: 265: for (; i < length + 1; i++) {
-"265
+[; ;my_uart.c: 187: for (; i < length + 1; i++) {
+"187
 {
-[e $U 621  ]
-[e :U 618 ]
+[e $U 627  ]
+[e :U 624 ]
 {
-[; ;my_uart.c: 266: uc_ptr->Tx_buffer[i] = msgbuffer[i];
-"266
+[; ;my_uart.c: 188: uc_ptr->Tx_buffer[i] = msgbuffer[i];
+"188
 [e = *U + &U . *U _uc_ptr 0 * -> -> _i `ui `ux -> -> # *U &U . *U _uc_ptr 0 `ui `ux *U + _msgbuffer * -> _i `x -> -> # *U _msgbuffer `i `x ]
-"267
+"189
 }
-"265
+"187
 [e ++ _i -> 1 `i ]
-[e :U 621 ]
-[e $ < _i + _length -> 1 `i 618  ]
-[e :U 619 ]
-"267
+[e :U 627 ]
+[e $ < _i + _length -> 1 `i 624  ]
+[e :U 625 ]
+"189
 }
-[; ;my_uart.c: 267: }
-[; ;my_uart.c: 268: }
-"268
-[e :UE 617 ]
+[; ;my_uart.c: 189: }
+[; ;my_uart.c: 190: }
+"190
+[e :UE 623 ]
 }
