@@ -5,7 +5,11 @@ Linker command line:
 --edf=C:\Program Files\Microchip\xc8\v1.30\dat\en_msgs.txt -cs \
   -h+dist/UseXC8/debug\PIC_Framework_3.X.debug.sym \
   --cmf=dist/UseXC8/debug\PIC_Framework_3.X.debug.cmf -z -Q18F45J10 \
+<<<<<<< HEAD
   -oC:\Users\ECE4534\AppData\Local\Temp\s21s.6 \
+=======
+  -oC:\Users\Carl\AppData\Local\Temp\s5lk.6 \
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   -Mdist/UseXC8/debug/PIC_Framework_3.X.debug.map -E1 -ver=XC8 \
   -ASTACK=0236h-03ffh -pstack=STACK -ACODE=00h-07FF7h -ACONST=00h-07FF7h \
   -ASMALLCONST=0400h-04FFhx123,07F00h-07FF7h -AMEDIUMCONST=0400h-07FF7h \
@@ -20,7 +24,11 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE \
+<<<<<<< HEAD
   C:\Users\ECE4534\AppData\Local\Temp\s21s.obj \
+=======
+  C:\Users\Carl\AppData\Local\Temp\s5lk.obj \
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   dist/UseXC8/debug\PIC_Framework_3.X.debug.obj 
 
 Object code version is 3.11
@@ -33,7 +41,11 @@ Call graph: (short form)
 
 
                 Name                               Link     Load   Length Selector   Space Scale
+<<<<<<< HEAD
 C:\Users\ECE4534\AppData\Local\Temp\s21s.obj
+=======
+C:\Users\Carl\AppData\Local\Temp\s5lk.obj
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
                 end_init                             C0       C0        4        C       0
                 reset_vec                             0        0        6        0       0
                 config                             7FF8     7FF8        6     7FF8       0
@@ -3022,17 +3034,29 @@ Total ram usage:        0 bytes
 MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_WriteTimer0   		CODE           	206E	0000	18
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c estimated size: 18
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_WriteTimer1   		CODE           	204A	0000	18
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c estimated size: 18
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_ReadTimer1    		CODE           	205C	0000	18
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c estimated size: 18
@@ -3085,17 +3109,29 @@ shared estimated size: 1180
 
 ../src/my_i2c.c estimated size: 1934
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_ReadUSART     		CODE           	1FCC	0000	30
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c estimated size: 30
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_OpenTimer0    		CODE           	1F58	0000	42
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c estimated size: 42
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_OpenTimer1    		CODE           	1DE2	0000	56
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c estimated size: 56
@@ -3105,7 +3141,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c estimate
 
 ../src/uart_thread.c estimated size: 60
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_Delay1KTCYx   		CODE           	1FEA	0000	22
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c estimated size: 22
@@ -3120,12 +3160,20 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c estimated size: 22
 
 ../src/interrupts.c estimated size: 6152
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_memcpy        		CODE           	1A5A	0000	94
 
 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c estimated size: 94
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_WriteUSART    		CODE           	2000	0000	20
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c estimated size: 20
@@ -3138,7 +3186,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c estimated
 
 ../src/my_uart.c estimated size: 1240
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		_OpenUSART     		CODE           	149C	0000	146
 
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c estimated size: 146
@@ -3161,7 +3213,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c estimated 
 
 ../src/messages.c estimated size: 1436
 
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwmod.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 		___lwmod       		CODE           	152E	0000	138
 
 C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c estimated size: 138

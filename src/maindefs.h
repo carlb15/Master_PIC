@@ -54,6 +54,10 @@
 #define MSGT_I2C_MASTER_RECV_FAILED 46
 #define MSGT_ADC_DATA 50
 #define I2C_MESSAGE_LENGTH 5
+<<<<<<< HEAD
 #define ENC_MSGTYPE 0xaa
+=======
+#define SENSOR_MSGTYPE 0xaa
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 
 #endif

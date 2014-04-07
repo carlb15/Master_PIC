@@ -1,7 +1,11 @@
 
 
 Microchip Technology PIC18 LITE Macro Assembler V1.30 build 55553 
+<<<<<<< HEAD
                                                                                                Tue Apr 01 15:23:56 2014
+=======
+                                                                                               Mon Mar 17 23:29:37 2014
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 
 Microchip Technology Omniscient Code Generator (Lite mode) build 55553
      1                           	processor	18F45J10
@@ -1870,7 +1874,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   1860                           
   1861 ;; *************** function ___lwmod *****************
   1862 ;; Defined at:
+<<<<<<< HEAD
   1863 ;;		line 8 in file "C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c"
+=======
+  1863 ;;		line 8 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwmod.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   1864 ;; Parameters:    Size  Location     Type
   1865 ;;  dividend        2    0[BANK1 ] unsigned int 
   1866 ;;  divisor         2    2[BANK1 ] unsigned int 
@@ -4320,7 +4328,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   4310                           
   4311 ;; *************** function _Delay1KTCYx *****************
   4312 ;; Defined at:
+<<<<<<< HEAD
   4313 ;;		line 8 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c"
+=======
+  4313 ;;		line 8 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   4314 ;; Parameters:    Size  Location     Type
   4315 ;;  unit            1    wreg     unsigned char 
   4316 ;; Auto vars:     Size  Location     Type
@@ -4808,7 +4820,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   4798                           
   4799 ;; *************** function _memcpy *****************
   4800 ;; Defined at:
+<<<<<<< HEAD
   4801 ;;		line 11 in file "C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c"
+=======
+  4801 ;;		line 11 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   4802 ;; Parameters:    Size  Location     Type
   4803 ;;  d1              2    0[BANK1 ] PTR void 
   4804 ;;		 -> FromMainLow_MQ.queue(52), FromMainHigh_MQ.queue(52), ToMainHigh_MQ.queue(52), ToMainLow_MQ.queue(52), 
@@ -4939,7 +4955,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   4927                           
   4928 ;; *************** function _OpenUSART *****************
   4929 ;; Defined at:
+<<<<<<< HEAD
   4930 ;;		line 73 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c"
+=======
+  4930 ;;		line 73 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   4931 ;; Parameters:    Size  Location     Type
   4932 ;;  config          1    wreg     unsigned char 
   4933 ;;  spbrg           2    0[BANK1 ] unsigned int 
@@ -5137,7 +5157,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   5125                           
   5126 ;; *************** function _OpenTimer1 *****************
   5127 ;; Defined at:
+<<<<<<< HEAD
   5128 ;;		line 16 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c"
+=======
+  5128 ;;		line 16 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   5129 ;; Parameters:    Size  Location     Type
   5130 ;;  config          1    wreg     unsigned char 
   5131 ;; Auto vars:     Size  Location     Type
@@ -5245,7 +5269,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   5233                           
   5234 ;; *************** function _OpenTimer0 *****************
   5235 ;; Defined at:
+<<<<<<< HEAD
   5236 ;;		line 18 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c"
+=======
+  5236 ;;		line 18 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   5237 ;; Parameters:    Size  Location     Type
   5238 ;;  config          1    wreg     unsigned char 
   5239 ;; Auto vars:     Size  Location     Type
@@ -5596,7 +5624,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   5584                           
   5585 ;; *************** function _WriteUSART *****************
   5586 ;; Defined at:
+<<<<<<< HEAD
   5587 ;;		line 13 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c"
+=======
+  5587 ;;		line 13 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   5588 ;; Parameters:    Size  Location     Type
   5589 ;;  data            1    wreg     unsigned char 
   5590 ;; Auto vars:     Size  Location     Type
@@ -6392,7 +6424,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   6379                           
   6380 ;; *************** function _ReadUSART *****************
   6381 ;; Defined at:
+<<<<<<< HEAD
   6382 ;;		line 15 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c"
+=======
+  6382 ;;		line 15 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   6383 ;; Parameters:    Size  Location     Type
   6384 ;;		None
   6385 ;; Auto vars:     Size  Location     Type
@@ -6561,7 +6597,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   6548                           
   6549 ;; *************** function _WriteTimer1 *****************
   6550 ;; Defined at:
+<<<<<<< HEAD
   6551 ;;		line 14 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c"
+=======
+  6551 ;;		line 14 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   6552 ;; Parameters:    Size  Location     Type
   6553 ;;  timer1          2    0[COMRAM] unsigned int 
   6554 ;; Auto vars:     Size  Location     Type
@@ -6881,7 +6921,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   6868                           
   6869 ;; *************** function i1_memcpy *****************
   6870 ;; Defined at:
+<<<<<<< HEAD
   6871 ;;		line 11 in file "C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c"
+=======
+  6871 ;;		line 11 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   6872 ;; Parameters:    Size  Location     Type
   6873 ;;  d1              2    0[COMRAM] PTR void 
   6874 ;;		 -> FromMainLow_MQ.queue(52), FromMainHigh_MQ.queue(52), ToMainHigh_MQ.queue(52), ToMainLow_MQ.queue(52), 
@@ -6992,7 +7036,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   6977                           
   6978 ;; *************** function _ReadTimer1 *****************
   6979 ;; Defined at:
+<<<<<<< HEAD
   6980 ;;		line 15 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c"
+=======
+  6980 ;;		line 15 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   6981 ;; Parameters:    Size  Location     Type
   6982 ;;		None
   6983 ;; Auto vars:     Size  Location     Type
@@ -7668,7 +7716,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   7652                           
   7653 ;; *************** function _WriteTimer0 *****************
   7654 ;; Defined at:
+<<<<<<< HEAD
   7655 ;;		line 16 in file "C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c"
+=======
+  7655 ;;		line 16 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   7656 ;; Parameters:    Size  Location     Type
   7657 ;;  timer0          2    0[BANK0 ] unsigned int 
   7658 ;; Auto vars:     Size  Location     Type
@@ -8080,7 +8132,11 @@ Microchip Technology Omniscient Code Generator (Lite mode) build 55553
   8064                           
   8065 ;; *************** function i2_memcpy *****************
   8066 ;; Defined at:
+<<<<<<< HEAD
   8067 ;;		line 11 in file "C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c"
+=======
+  8067 ;;		line 11 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c"
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
   8068 ;; Parameters:    Size  Location     Type
   8069 ;;  d1              2    0[BANK0 ] PTR void 
   8070 ;;		 -> FromMainLow_MQ.queue(52), FromMainHigh_MQ.queue(52), ToMainHigh_MQ.queue(52), ToMainLow_MQ.queue(52), 
@@ -10226,7 +10282,11 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V1.30 build 55553 
+<<<<<<< HEAD
 Symbol Table                                                                                   Tue Apr 01 15:23:56 2014
+=======
+Symbol Table                                                                                   Mon Mar 17 23:29:37 2014
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 
                   main@uthread_data 01B5            _MQ_Main_Willing_to_block 0058  
              ?i2_ToMainHigh_sendmsg 00CC           __end_of_ToMainLow_recvmsg 1C6A  

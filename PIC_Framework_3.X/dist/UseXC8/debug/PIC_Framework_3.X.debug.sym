@@ -740,8 +740,13 @@ bssBANK1 100 1F6 BANK1 100 1
 bssBANK2 200 235 BANK2 200 1
 %locals
 dist/UseXC8/debug\PIC_Framework_3.X.debug.obj
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 C:\Users\ECE4534\AppData\Local\Temp\s21s.
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+C:\Users\Carl\AppData\Local\Temp\s5lk.
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 3210 1DA8 0 CODE 0
 3212 1DA8 0 CODE 0
 3215 1DA8 0 CODE 0
@@ -844,7 +849,11 @@ C:\Users\ECE4534\AppData\Local\Temp\s21s.
 20 184A 0 CODE 0
 21 1880 0 CODE 0
 26 18AE 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwmod.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 8 152E 0 CODE 0
 13 152E 0 CODE 0
 14 153A 0 CODE 0
@@ -1012,7 +1021,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\common\lwmod.c
 222 1E86 0 CODE 0
 223 1E86 0 CODE 0
 224 1EBC 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 8 1FEA 0 CODE 0
 10 1FEE 0 CODE 0
 11 1FEE 0 CODE 0
@@ -1041,7 +1054,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\d1ktcyx.c
 92 E48 0 CODE 0
 94 E50 0 CODE 0
 96 E54 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 11 1A5A 0 CODE 0
 24 1A5A 0 CODE 0
 25 1A6A 0 CODE 0
@@ -1051,7 +1068,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
 32 1AB4 0 CODE 0
 26 1AB6 0 CODE 0
 32 1AB8 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 73 149C 0 CODE 0
 75 14A0 0 CODE 0
 76 14A4 0 CODE 0
@@ -1088,7 +1109,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uopen.c
 138 1522 0 CODE 0
 139 152A 0 CODE 0
 143 152E 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 16 1DE2 0 CODE 0
 18 1DE6 0 CODE 0
 21 1DF0 0 CODE 0
@@ -1104,7 +1129,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1open.c
 33 1E14 0 CODE 0
 35 1E16 0 CODE 0
 36 1E18 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 18 1F58 0 CODE 0
 20 1F5C 0 CODE 0
 21 1F66 0 CODE 0
@@ -1116,7 +1145,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
 28 1F7C 0 CODE 0
 30 1F7E 0 CODE 0
 31 1F80 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 31 18 0 CODE 0
 ../src/interrupts.c
 129 18 0 CODE 0
@@ -1138,7 +1171,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0open.c
 169 1A24 0 CODE 0
 170 1A4A 0 CODE 0
 172 1A5A 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 13 2000 0 CODE 0
 15 2004 0 CODE 0
 17 2008 0 CODE 0
@@ -1218,7 +1255,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uwrite.c
 126 1F82 0 CODE 0
 132 1F86 0 CODE 0
 133 1FA8 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 15 1FCC 0 CODE 0
 19 1FCC 0 CODE 0
 21 1FD0 0 CODE 0
@@ -1239,7 +1280,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\USART\uread.c
 48 1F34 0 CODE 0
 51 1F4A 0 CODE 0
 52 1F56 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 14 204A 0 CODE 0
 18 204A 0 CODE 0
 20 2052 0 CODE 0
@@ -1263,7 +1308,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1write.c
 59 148C 0 CODE 0
 60 1498 0 CODE 0
 61 149C 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 11 1CEE 0 CODE 0
 24 1CEE 0 CODE 0
 25 1CF6 0 CODE 0
@@ -1273,13 +1322,21 @@ C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
 32 1D2A 0 CODE 0
 26 1D2C 0 CODE 0
 32 1D2E 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 15 205C 0 CODE 0
 19 205C 0 CODE 0
 20 2060 0 CODE 0
 22 2064 0 CODE 0
 23 206C 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 23 8 0 CODE 0
 ../src/interrupts.c
 88 8 0 CODE 0
@@ -1318,7 +1375,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t1read.c
 59 1182 0 CODE 0
 60 118E 0 CODE 0
 61 1192 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 16 206E 0 CODE 0
 20 206E 0 CODE 0
 22 2076 0 CODE 0
@@ -1343,7 +1404,11 @@ C:\Program Files\Microchip\xc8\v1.30\sources\pic18\plib\Timers\t0write.c
 92 F7E 0 CODE 0
 94 F86 0 CODE 0
 96 F8A 0 CODE 0
+<<<<<<< HEAD
 C:\Program Files\Microchip\xc8\v1.30\sources\common\memcpy.c
+=======
+C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\memcpy.c
+>>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
 11 1AB8 0 CODE 0
 24 1AB8 0 CODE 0
 25 1AC8 0 CODE 0
