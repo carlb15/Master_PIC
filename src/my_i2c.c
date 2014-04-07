@@ -103,7 +103,7 @@ unsigned char i2c_master_send(unsigned char length, unsigned char *msg) {
 
         return 1;
     }
-
+    return;
 }
 // Receiving in I2C Master mode [slave read]
 //              returns -1 if the i2c bus is busy
@@ -139,7 +139,7 @@ unsigned char i2c_master_recv(unsigned char length) {
 
         return 1;
     }
-
+    return;
 }
 
 void i2c_int_handler() {

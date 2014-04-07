@@ -18,7 +18,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/i2c_thread.h
 [s S589 `i 1 ]
 [n S589 __i2c_thread_struct data ]
-"8090 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"8090 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _OSCCON `Vuc ~T0 @X0 0 e@4051 ]
 [s S218 :6 `uc 1 :1 `uc 1 ]
 [n S218 . . PLLEN ]
@@ -34,11 +34,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _init_timer1_lthread `(v ~T0 @X0 0 ef1`*S587 ]
 "43 ../src/messages.h
 [v _init_queues `(v ~T0 @X0 0 ef ]
-"2722 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"2722 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _TRISB `Vuc ~T0 @X0 0 e@3987 ]
 "2065
 [v _LATB `Vuc ~T0 @X0 0 e@3978 ]
-"118 C:\Program Files (x86)\Microchip\xc8\v1.30\include\plib\timers.h
+"118 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
 [v _OpenTimer0 `(v ~T0 @X0 0 ef1`uc ]
 "236
 [v _OpenTimer1 `(v ~T0 @X0 0 ef1`uc ]
@@ -48,7 +48,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S227 . . SSPIP TX1IP RC1IP ]
 [u S225 `S226 1 `S227 1 ]
 [n S225 . . . ]
-"3755 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"3755 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _IPR1bits `VS225 ~T0 @X0 0 e@3999 ]
 "57 ../src/my_i2c.h
 [v _i2c_configure_master `(v ~T0 @X0 0 ef1`uc ]
@@ -58,9 +58,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S221 . . SSPIE TX1IE RC1IE ]
 [u S219 `S220 1 `S221 1 ]
 [n S219 . . . ]
-"3591 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"3591 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _PIE1bits `VS219 ~T0 @X0 0 e@3997 ]
-"581 C:\Program Files (x86)\Microchip\xc8\v1.30\include\plib\usart.h
+"581 C:\Program Files\Microchip\xc8\v1.30\include\plib\usart.h
 [v _OpenUSART `(v ~T0 @X0 0 ef2`uc`ui ]
 [s S293 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S293 . ABDEN WUE . BRG16 SCKP . RCMT ABDOVF ]
@@ -70,7 +70,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S295 . . W4E ]
 [u S292 `S293 1 `S294 1 `S295 1 ]
 [n S292 . . . . ]
-"5164 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"5164 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _BAUDCONbits `VS292 ~T0 @X0 0 e@4024 ]
 [s S246 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S246 . RX9D OERR FERR ADDEN CREN SREN RX9 SPEN ]
@@ -108,7 +108,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _uart_lthread `(i ~T0 @X0 0 ef4`*S586`i`i`*uc ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {

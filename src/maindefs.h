@@ -10,7 +10,7 @@
 #define __USE18F2680 1
 #else
 #ifdef _18F26J50
-#define __USE18F26J50 1
+#define __USE18F26J50 
 #else
 #ifdef _18F46J50
 #define __USE18F46J50 1
@@ -54,9 +54,6 @@
 #define MSGT_I2C_MASTER_RECV_FAILED 46
 #define MSGT_ADC_DATA 50
 #define I2C_MESSAGE_LENGTH 5
-#define SENSOR_MSGTYPE 0xaa
-
-
+#define ENC_MSGTYPE 0xaa
 
 #endif
-

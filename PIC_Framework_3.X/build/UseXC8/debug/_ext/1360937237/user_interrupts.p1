@@ -1,19 +1,19 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"121 C:\Program Files (x86)\Microchip\xc8\v1.30\include\plib\timers.h
+"121 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
 [v _WriteTimer0 `(v ~T0 @X0 0 ef1`ui ]
 "79 ../src/messages.h
 [v _FromMainHigh_recvmsg `(c ~T0 @X0 0 ef3`uc`*uc`*v ]
 "64
 [v _ToMainHigh_sendmsg `(c ~T0 @X0 0 ef3`uc`uc`*v ]
-"238 C:\Program Files (x86)\Microchip\xc8\v1.30\include\plib\timers.h
+"238 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
 [v _ReadTimer1 `(ui ~T0 @X0 0 ef ]
 "57 ../src/messages.h
 [v _ToMainLow_sendmsg `(c ~T0 @X0 0 ef3`uc`uc`*v ]
-"239 C:\Program Files (x86)\Microchip\xc8\v1.30\include\plib\timers.h
+"239 C:\Program Files\Microchip\xc8\v1.30\include\plib\timers.h
 [v _WriteTimer1 `(v ~T0 @X0 0 ef1`ui ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {

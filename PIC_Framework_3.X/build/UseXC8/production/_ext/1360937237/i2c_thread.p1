@@ -10,7 +10,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i2c_master_recv `(uc ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {
@@ -4716,23 +4716,34 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 587 ]
 [e $ ! == _msgtype -> 39 `i 591  ]
 {
-[; ;i2c_thread.c: 24: if (i2c_master_recv(length) == 0) {
-"24
-[e $ ! == -> ( _i2c_master_recv (1 -> _length `uc `i -> 0 `i 592  ]
-{
-[; ;i2c_thread.c: 25: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+[; ;i2c_thread.c: 25: if (msgbuffer[0] == 0xaa) {
 "25
-[e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
+[e $ ! == -> *U + _msgbuffer * -> -> 0 `i `x -> -> # *U _msgbuffer `i `x `i -> 170 `i 592  ]
+{
+[; ;i2c_thread.c: 26: length = 5;
 "26
-}
-[e :U 592 ]
+[e = _length -> 5 `i ]
 "27
 }
-[e :U 591 ]
-"28
-[e :U 590 ]
-[; ;i2c_thread.c: 26: }
+[e :U 592 ]
 [; ;i2c_thread.c: 27: }
-[; ;i2c_thread.c: 28: }
+[; ;i2c_thread.c: 29: if (i2c_master_recv(length) == 0) {
+"29
+[e $ ! == -> ( _i2c_master_recv (1 -> _length `uc `i -> 0 `i 593  ]
+{
+[; ;i2c_thread.c: 30: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+"30
+[e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
+"31
+}
+[e :U 593 ]
+"32
+}
+[e :U 591 ]
+"33
+[e :U 590 ]
+[; ;i2c_thread.c: 31: }
+[; ;i2c_thread.c: 32: }
+[; ;i2c_thread.c: 33: }
 [e :UE 586 ]
 }

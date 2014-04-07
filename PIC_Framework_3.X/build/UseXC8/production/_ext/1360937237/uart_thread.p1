@@ -2,7 +2,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "1 ../src/uart_thread.h
 [s S582 `i 1 ]
 [n S582 __uart_thread_struct data ]
-"29 ../src/my_uart.h
+"35 ../src/my_uart.h
 [v _uart_retrieve_buffer `(v ~T0 @X0 0 ef2`i`*uc ]
 [s S220 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S220 . TMR1IE TMR2IE CCP1IE SSP1IE TXIE RCIE ADIE PSPIE ]
@@ -10,11 +10,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S221 . . SSPIE TX1IE RC1IE ]
 [u S219 `S220 1 `S221 1 ]
 [n S219 . . . ]
-"3591 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"3591 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _PIE1bits `VS219 ~T0 @X0 0 e@3997 ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {
@@ -4639,16 +4639,23 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;messages.h: 72: signed char FromMainLow_recvmsg(unsigned char,unsigned char *,void *);
 [; ;messages.h: 78: signed char FromMainHigh_sendmsg(unsigned char,unsigned char,void *);
 [; ;messages.h: 79: signed char FromMainHigh_recvmsg(unsigned char,unsigned char *,void *);
-[; ;my_uart.h: 15: typedef struct __uart_comm {
-[; ;my_uart.h: 16: unsigned char Tx_buffer[10];
-[; ;my_uart.h: 17: unsigned char Rx_buffer[10];
-[; ;my_uart.h: 18: unsigned char Tx_buflen;
-[; ;my_uart.h: 19: unsigned char Rx_buflen;
-[; ;my_uart.h: 20: } uart_comm;
-"22 ../src/my_uart.h
+[; ;my_uart.h: 18: typedef struct __uart_comm {
+[; ;my_uart.h: 19: unsigned char Tx_buffer[10];
+[; ;my_uart.h: 20: unsigned char Rx_buffer[10];
+[; ;my_uart.h: 21: unsigned char Tx_buflen;
+[; ;my_uart.h: 22: unsigned char Rx_buflen;
+[; ;my_uart.h: 23: unsigned char msg_length;
+[; ;my_uart.h: 24: } uart_comm;
+"26 ../src/my_uart.h
 [v _uartData `uc ~T0 @X0 1 e ]
-[; ;my_uart.h: 22: unsigned char uartData;
-"23
+[; ;my_uart.h: 26: unsigned char uartData;
+"28
+[v _msgtype `uc ~T0 @X0 1 e ]
+[i _msgtype
+-> -> 0 `i `uc
+]
+[; ;my_uart.h: 28: unsigned char msgtype = 0;
+"29
 [v _msgtype_flag `uc ~T0 @X0 1 e ]
 [i _msgtype_flag
 -> -> 0 `i `uc
@@ -4657,12 +4664,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [i _length_flag
 -> -> 0 `i `uc
 ]
+[v _msg_flag `uc ~T0 @X0 1 e ]
+[i _msg_flag
+-> -> 0 `i `uc
+]
 [v _checksum_flag `uc ~T0 @X0 1 e ]
 [i _checksum_flag
 -> -> 0 `i `uc
 ]
-[; ;my_uart.h: 23: unsigned char msgtype_flag = 0x0, length_flag = 0x0, checksum_flag = 0x0;
-"24
+[; ;my_uart.h: 29: unsigned char msgtype_flag = 0x0, length_flag = 0x0, msg_flag = 0x0, checksum_flag = 0x0;
+"30
 [v _sendToSensorPIC_flag `uc ~T0 @X0 1 e ]
 [i _sendToSensorPIC_flag
 -> -> 0 `i `uc
@@ -4671,11 +4682,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [i _sendToMotorPIC_flag
 -> -> 0 `i `uc
 ]
-[; ;my_uart.h: 24: unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
-[; ;my_uart.h: 26: void init_uart_recv(uart_comm *);
-[; ;my_uart.h: 27: void uart_send_int_handler();
-[; ;my_uart.h: 28: void uart_recv_int_handler(void);
-[; ;my_uart.h: 29: void uart_retrieve_buffer(int length, unsigned char*);
+[; ;my_uart.h: 30: unsigned char sendToSensorPIC_flag = 0x0, sendToMotorPIC_flag = 0x0;
+[; ;my_uart.h: 32: void init_uart_recv(uart_comm *);
+[; ;my_uart.h: 33: void uart_send_int_handler();
+[; ;my_uart.h: 34: void uart_recv_int_handler(void);
+[; ;my_uart.h: 35: void uart_retrieve_buffer(int length, unsigned char*);
 "12 ../src/uart_thread.c
 [v _uart_lthread `(i ~T0 @X0 1 ef4`*S582`i`i`*uc ]
 {

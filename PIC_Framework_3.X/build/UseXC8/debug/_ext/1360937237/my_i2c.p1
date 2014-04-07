@@ -2,7 +2,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "7 ../src/my_i2c.h
 [s S583 `uc -> 10 `i `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc -> 10 `i `uc 1 `uc 1 `uc 1 `i 1 `i 1 `uc 1 `uc 1 `uc 1 ]
 [n S583 __i2c_comm buffer buflen event_count status error_code error_count outbuffer outbuflen outbufind slave_addr bufferCounterSend bufferCounterRx tx_i2c rx_i2c slave_addr_rc ]
-"6326 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"6326 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _SSPCON1 `Vuc ~T0 @X0 0 e@4038 ]
 "7278
 [v _SSPADD `Vuc ~T0 @X0 0 e@4040 ]
@@ -52,7 +52,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i2c_int_handler_master_rx `(v ~T0 @X0 0 ef ]
 "52
 [v _i2c_int_handler_master_tx `(v ~T0 @X0 0 ef ]
-"7583 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"7583 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [v _SSPBUF `Vuc ~T0 @X0 0 e@4041 ]
 [s S332 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S332 . SEN RSEN PEN RCEN ACKEN ACKDT ACKSTAT GCEN ]
@@ -98,7 +98,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _SSPCON2bits `VS331 ~T0 @X0 0 e@4037 ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {

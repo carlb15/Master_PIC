@@ -2,28 +2,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11 ../src/i2c_thread.h
 [s S582 `i 1 ]
 [n S582 __i2c_thread_struct data ]
-[s S148 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S148 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
-[s S149 :1 `uc 1 ]
-[n S149 . LB0 ]
-[s S150 :1 `uc 1 :1 `uc 1 ]
-[n S150 . . LB1 ]
-[s S151 :2 `uc 1 :1 `uc 1 ]
-[n S151 . . LB2 ]
-[s S152 :3 `uc 1 :1 `uc 1 ]
-[n S152 . . LB3 ]
-[s S153 :4 `uc 1 :1 `uc 1 ]
-[n S153 . . LB4 ]
-[s S154 :5 `uc 1 :1 `uc 1 ]
-[n S154 . . LB5 ]
-[s S155 :6 `uc 1 :1 `uc 1 ]
-[n S155 . . LB6 ]
-[s S156 :7 `uc 1 :1 `uc 1 ]
-[n S156 . . LB7 ]
-[u S147 `S148 1 `S149 1 `S150 1 `S151 1 `S152 1 `S153 1 `S154 1 `S155 1 `S156 1 ]
-[n S147 . . . . . . . . . . ]
-"2113 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
-[v _LATBbits `VS147 ~T0 @X0 0 e@3978 ]
 "58 ../src/my_i2c.h
 [v _i2c_master_send `(uc ~T0 @X0 0 ef2`uc`*uc ]
 "64 ../src/messages.h
@@ -32,7 +10,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i2c_master_recv `(uc ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 22: extern void __builtin_software_breakpoint(void);
 [; ;pic18f45j10.h: 44: extern volatile unsigned char PORTA @ 0xF80;
-"46 C:\Program Files (x86)\Microchip\xc8\v1.30\include\pic18f45j10.h
+"46 C:\Program Files\Microchip\xc8\v1.30\include\pic18f45j10.h
 [; ;pic18f45j10.h: 46: asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
 [; ;pic18f45j10.h: 49: typedef union {
@@ -4707,75 +4685,65 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _length `i ~T0 @X0 1 r3 ]
 [v _msgbuffer `*uc ~T0 @X0 1 r4 ]
 [f ]
-[; ;i2c_thread.c: 16: if (msgtype == 40) {
-"16
+[; ;i2c_thread.c: 14: if (msgtype == 40) {
+"14
 [e $ ! == _msgtype -> 40 `i 587  ]
 {
-[; ;i2c_thread.c: 20: { LATBbits.LATB1 = 1; };
-"20
-{
-[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
-}
-[; ;i2c_thread.c: 21: { LATBbits.LATB1 = 0; };
-"21
-{
-[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
-}
-[; ;i2c_thread.c: 25: if (i2c_master_send(length, msgbuffer) == 0) {
-"25
+[; ;i2c_thread.c: 16: if (i2c_master_send(length, msgbuffer) == 0) {
+"16
 [e $ ! == -> ( _i2c_master_send (2 , -> _length `uc _msgbuffer `i -> 0 `i 588  ]
 {
-[; ;i2c_thread.c: 26: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
-"26
+[; ;i2c_thread.c: 17: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+"17
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
-"27
+"18
 }
-[; ;i2c_thread.c: 27: } else {
+[; ;i2c_thread.c: 18: } else {
 [e $U 589  ]
 [e :U 588 ]
 {
-[; ;i2c_thread.c: 30: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
-"30
+[; ;i2c_thread.c: 20: ToMainHigh_sendmsg(length, 39, (void *) msgbuffer);
+"20
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> -> 39 `i `uc -> _msgbuffer `*v ]
-"31
+"21
 }
 [e :U 589 ]
-"32
+"22
 }
-[; ;i2c_thread.c: 31: }
-[; ;i2c_thread.c: 32: } else if (msgtype == 39) {
+[; ;i2c_thread.c: 21: }
+[; ;i2c_thread.c: 22: } else if (msgtype == 39) {
 [e $U 590  ]
 [e :U 587 ]
 [e $ ! == _msgtype -> 39 `i 591  ]
 {
-[; ;i2c_thread.c: 35: if (msgbuffer[0] == 0xaa) {
-"35
+[; ;i2c_thread.c: 25: if (msgbuffer[0] == 0xaa) {
+"25
 [e $ ! == -> *U + _msgbuffer * -> -> 0 `i `x -> -> # *U _msgbuffer `i `x `i -> 170 `i 592  ]
 {
-[; ;i2c_thread.c: 36: length = 5;
-"36
+[; ;i2c_thread.c: 26: length = 5;
+"26
 [e = _length -> 5 `i ]
-"37
+"27
 }
 [e :U 592 ]
-[; ;i2c_thread.c: 37: }
-[; ;i2c_thread.c: 39: if (i2c_master_recv(length) == 0) {
-"39
+[; ;i2c_thread.c: 27: }
+[; ;i2c_thread.c: 29: if (i2c_master_recv(length) == 0) {
+"29
 [e $ ! == -> ( _i2c_master_recv (1 -> _length `uc `i -> 0 `i 593  ]
 {
-[; ;i2c_thread.c: 40: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
-"40
+[; ;i2c_thread.c: 30: ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
+"30
 [e ( _ToMainHigh_sendmsg (3 , , -> _length `uc -> _msgtype `uc -> _msgbuffer `*v ]
-"41
+"31
 }
 [e :U 593 ]
-"42
+"32
 }
 [e :U 591 ]
-"43
+"33
 [e :U 590 ]
-[; ;i2c_thread.c: 41: }
-[; ;i2c_thread.c: 42: }
-[; ;i2c_thread.c: 43: }
+[; ;i2c_thread.c: 31: }
+[; ;i2c_thread.c: 32: }
+[; ;i2c_thread.c: 33: }
 [e :UE 586 ]
 }
