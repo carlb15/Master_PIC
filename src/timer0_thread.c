@@ -11,5 +11,4 @@ int timer0_lthread(timer0_thread_struct *tptr, int msgtype, int length, unsigned
 
     msgval = (unsigned int *) msgbuffer;
 
-    // Here is where we would do something with the message
 }

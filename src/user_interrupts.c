@@ -17,18 +17,6 @@
 void timer0_int_handler() {
     // reset the timer
     WriteTimer0(0);
-
-    DEBUG_ON(TMR0_DBG);
-    DEBUG_OFF(TMR0_DBG);
-
-    // Send another command to the motorcontroller
-    if (switchStatesCounter == switch_states) {
-        DEBUG_ON(TMR0_DBG);
-        DEBUG_OFF(TMR0_DBG);
-        unsigned data[6];
-        unsigned char length = 6;
-        ToMainHigh_sendmsg(length, MSGT_TIMER0, (void *) data);
-    }
 }
 
 // A function called by the interrupt handler
@@ -43,7 +31,7 @@ void timer1_int_handler() {
 #endif
 
     result = ReadTimer1();
-    ToMainLow_sendmsg(0, MSGT_TIMER1, (void *) 0);
+    //    ToMainLow_sendmsg(0, MSGT_TIMER1, (void *) 0);
 
     // reset the timer
     WriteTimer1(0);

@@ -187,18 +187,15 @@ The PIC selected is not supported or the preprocessor directives are wrong.
 
 
 void main(void) {
-    char c;
     signed char length;
     unsigned char msgtype;
-    unsigned char last_reg_recvd;
     uart_comm uc;
     i2c_comm ic;
     unsigned char msgbuffer[MSGLEN + 1];
     unsigned char i;
-    uart_thread_struct uthread_data; // info for uart_lthread
     timer1_thread_struct t1thread_data; // info for timer1_lthread
-    timer0_thread_struct t0thread_data; // info for timer0_lthread
-    i2c_thread_struct i2cthread_data; // info for i2c_lthread
+    motor_thread_struct motor_thread_data; // info for i2c_lthread
+    
 
 #ifdef __USE18F2680
     OSCCON = 0xFC; // see datasheet
@@ -243,19 +240,8 @@ void main(void) {
     LATB = 0x0;
 #endif
 
-    // how to set up PORTA for input (for the V4 board with the PIC2680)
-    /*
-            PORTA = 0x0;	// clear the port
-            LATA = 0x0;		// clear the output latch
-            ADCON1 = 0x0F;	// turn off the A2D function on these pins
-            // Only for 40-pin version of this chip CMCON = 0x07;	// turn the comparator off
-            TRISA = 0x0F;	// set RA3-RA0 to inputs
-     */
-
     // initialize Timers
     OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_INT & T0_PS_1_16);
-
-
 
 
 #ifdef __USE18F26J50
@@ -285,11 +271,7 @@ void main(void) {
 #if 1
     unsigned char slave_address = 0x9E;
     i2c_configure_master(slave_address);
-#else
-    // If I want to test the temperature sensor from the ARM, I just make
-    // sure this PIC does not have the same address and configure the
-    // temperature sensor address bits and then just stay in an infinite loop
-    i2c_configure_slave(0x9A);
+
 #ifdef __USE18F2680
     LATBbits.LATB1 = 1;
     LATBbits.LATB0 = 1;
@@ -300,7 +282,6 @@ void main(void) {
 
     // must specifically enable the I2C interrupts
     PIE1bits.SSPIE = 1;
-
 
     // configure the hardware USART device
 #ifdef __USE18F26J50
@@ -323,8 +304,7 @@ void main(void) {
 #endif
 #endif
 
-    // initializing buffer flag for I2c
-    bufferFlag = 0x0;
+
     // Peripheral interrupts can have their priority set to high or low
     // enable high-priority interrupts and low-priority interrupts
     enable_interrupts();
@@ -342,33 +322,39 @@ void main(void) {
 
 
         // At this point, one or both of the queues has a message.  It
-        // makes sense to check the high-priority messages first -- in fact,
-        // you may only want to check the low-priority messages when there
-        // is not a high priority message.  That is a design decision and
-        // I haven't done it here.
+        // makes sense to check the high-priority messages first.
         length = ToMainHigh_recvmsg(MSGLEN, &msgtype, (void *) msgbuffer);
 
         if (length < 0) {
             // no message, check the error code to see if it is concern
             if (length != MSGQUEUE_EMPTY) {
-                // This case be handled by your code.
+                printf("Error: No message in high-priority queue.");
             }
         } else {
             switch (msgtype) {
 
-                case MSGT_I2C_SEND:
+                case MSGT_MOTOR_SEND:
                 {
-                    i2c_lthread(&i2cthread_data, msgtype, length, msgbuffer);
+                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer);
                     break;
                 };
-                case MSGT_I2C_RCV:
+                case MSGT_MOTOR_RCV:
                 {
-                    i2c_lthread(&i2cthread_data, msgtype, length, msgbuffer);
+                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer);
                     break;
+                };
+                case MSGT_UART_DATA:
+                {
+                    arm_lthread(&uart_thread_struct, msgtype, length, msgbuffer);
+                    break;
+                };
+                case MSGT_ARM_RCV:
+                {
+                    arm_lthread()
                 };
                 default:
                 {
-                    // Your code should handle this error
+                    printf("Error: End of high-priority queue.");
                     break;
                 };
             };

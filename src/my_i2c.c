@@ -79,31 +79,30 @@ unsigned char i2c_master_send(unsigned char length, unsigned char *msg) {
     //check that bus is not currently transmitting
     if (ic_ptr->status != I2C_IDLE_) {
         return 0;
-    } else if (ic_ptr->status == I2C_IDLE_) { // 0 for R/W bit = Transmitter ... to 9E
-        //ic_ptr->slave_addr = (ic_ptr->slave_addr << 1) & 0xFE;
-        //ic_ptr->slave_addr = (((ic_ptr->slave_addr) >> 1) & 0xAF);
-        //first byte of out = address
-        //setting the counter send
-        ic_ptr->bufferCounterSend = 1;
-        ic_ptr->outbuffer[0] = ic_ptr->slave_addr;
-        //add one to the length to include the address
-        ic_ptr->outbuflen = length + 1;
-        //copy message
-        int i = 1;
-        for (i; i < length + 1; i++) {
-            ic_ptr->outbuffer[i] = msg[i - 1];
-        }
-        //setting master handler to send
-        ic_ptr->tx_i2c = 0x1;
-        ic_ptr->rx_i2c = 0x0;
-
-        ic_ptr->status = I2C_START_COND;
-        //Generate 1st start condition
-        StartI2C(); // Start
-
-        return 1;
     }
-    return;
+    // 0 for R/W bit = Transmitter ... to 9E
+    //ic_ptr->slave_addr = (ic_ptr->slave_addr << 1) & 0xFE;
+    //ic_ptr->slave_addr = (((ic_ptr->slave_addr) >> 1) & 0xAF);
+    //first byte of out = address
+    //setting the counter send
+    ic_ptr->bufferCounterSend = 1;
+    ic_ptr->outbuffer[0] = ic_ptr->slave_addr;
+    //add one to the length to include the address
+    ic_ptr->outbuflen = length + 1;
+    //copy message
+    int i = 1;
+    for (i; i < length + 1; i++) {
+        ic_ptr->outbuffer[i] = msg[i - 1];
+    }
+    //setting master handler to send
+    ic_ptr->tx_i2c = 0x1;
+    ic_ptr->rx_i2c = 0x0;
+
+    ic_ptr->status = I2C_START_COND;
+    //Generate 1st start condition
+    StartI2C(); // Start
+
+    return 1;
 }
 // Receiving in I2C Master mode [slave read]
 //              returns -1 if the i2c bus is busy
@@ -122,24 +121,21 @@ unsigned char i2c_master_recv(unsigned char length) {
     //check that bus is not currently transmitting
     if (ic_ptr->status != I2C_IDLE_) {
         return 0;
-    } else if (ic_ptr->status == I2C_IDLE_) {
-        //setting master handler to receive
-        ic_ptr->rx_i2c = 0x1;
-        ic_ptr->tx_i2c = 0x0;
-        // 1 for R/W bit = WRITE ...CF to 9E
-        ic_ptr->slave_addr_rc = ((ic_ptr->slave_addr) | 0b00000001);
-        //getting lenght of data
-        ic_ptr->buflen = length;
-        //moving to next state for next interrupt
-        ic_ptr->status = I2C_START_COND_REC;
-        //initializing buffer
-        ic_ptr->bufferCounterRx = 0;
-        //Generate 1st start condition
-        StartI2C(); // Start
-
-        return 1;
     }
-    return;
+    //setting master handler to receive
+    ic_ptr->rx_i2c = 0x1;
+    ic_ptr->tx_i2c = 0x0;
+    // 1 for R/W bit = WRITE ...CF to 9E
+    ic_ptr->slave_addr_rc = ((ic_ptr->slave_addr) | 0b00000001);
+    //getting lenght of data
+    ic_ptr->buflen = length;
+    //moving to next state for next interrupt
+    ic_ptr->status = I2C_START_COND_REC;
+    //initializing buffer
+    ic_ptr->bufferCounterRx = 0;
+    //Generate 1st start condition
+    StartI2C(); // Start
+    return 1;
 }
 
 void i2c_int_handler() {
@@ -167,7 +163,6 @@ void i2c_int_handler_master_rx() {
                 SSPCON2bits.RCEN = 1;
                 //send ACK in next status
                 ic_ptr->status = I2C_SEND_ACK;
-
             } else {
                 ic_ptr->status = I2C_ERR_NACK_ADD_REC;
             }
@@ -192,21 +187,10 @@ void i2c_int_handler_master_rx() {
             break;
             // now we got an interrupt from the ack we sent
         case I2C_AFTER_SEND_ACK:
-
-            //STOP transmission if we receive all the bytes
-            //            if (ic_ptr->buflen == ic_ptr->bufferCounterRx) {
-            //                SSPCON2bits.ACKDT =0;
-            //                SSPCON2bits.ACKEN = 1;
-            //
-            //                ic_ptr->status = I2C_AFTER_ACKEN;
-            //            }
-            //            else {
-            // keep reading
             //master configured as a receiver
             SSPCON2bits.RCEN = 1;
             //send ACK in next status
             ic_ptr->status = I2C_SEND_ACK;
-            //            }
             break;
         case I2C_AFTER_ACKEN:
         {
@@ -219,13 +203,8 @@ void i2c_int_handler_master_rx() {
 
         case I2C_STOP_RX:
             ic_ptr->status = I2C_IDLE_;
-
-
             break;
-
     }
-
-
 }
 
 void i2c_int_handler_master_tx() {
@@ -284,16 +263,8 @@ void i2c_int_handler_master_tx() {
 
         case I2C_ACK_STOP:
             ic_ptr->status = I2C_IDLE_;
-
-
             break;
-
-
-
-
-
     }
-
 }
 
 

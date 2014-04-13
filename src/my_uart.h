@@ -4,8 +4,9 @@
 #include "messages.h"
 
 #define MAXUARTBUF 10
-#define MOTOR_COMMAND_MSGTYPE 0x01
+#define MOTOR_COMMAND 0x01
 #define SENSOR_LENGTH 0
+#define ENCODER_LENGTH 0
 #define MOTOR_COMMAND_LENGTH 3
 #define MESSAGE 4
 #define CHECKSUM 5
@@ -33,4 +34,5 @@ void init_uart_recv(uart_comm *);
 void uart_send_int_handler();
 void uart_recv_int_handler(void);
 void uart_retrieve_buffer(int length, unsigned char*);
+void checkForValidMsgType(char data);
 #endif

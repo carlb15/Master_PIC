@@ -3,4 +3,4 @@ typedef struct __uart_thread_struct {
     int data;
 } uart_thread_struct;
 
-int uart_lthread(uart_thread_struct *,int,int,unsigned char*);
+int arm_lthread(uart_thread_struct *,int,int,unsigned char*);

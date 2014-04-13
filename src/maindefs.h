@@ -44,8 +44,10 @@
 #define	MSGT_OVERRUN 30
 #define MSGT_SEND_UART_DATA 31
 #define MSGT_UART_DATA 32
-#define MSGT_I2C_RCV 39
-#define	MSGT_I2C_SEND 40
+#define MSGT_ARM_SEND 33
+#define MSGT_ARM_RCV 34
+#define MSGT_MOTOR_RCV 39
+#define	MSGT_MOTOR_SEND 40
 #define MSGT_I2C_RQST 42
 //was 42
 #define MSGT_I2C_MASTER_SEND_COMPLETE 43
@@ -54,10 +56,22 @@
 #define MSGT_I2C_MASTER_RECV_FAILED 46
 #define MSGT_ADC_DATA 50
 #define I2C_MESSAGE_LENGTH 5
-<<<<<<< HEAD
-#define ENC_MSGTYPE 0xaa
-=======
-#define SENSOR_MSGTYPE 0xaa
->>>>>>> 8b453ca2904bb6ddc1f44b84ffcd82707b0e4488
+
+
+#define ACK_LENGTH 0x01
+#define NACK_LENGTH 0x01
+#define MOTOR_COMMAND 0x01
+#define SENSOR_ON_TRACK 0x02
+#define SENSOR_OUT_OF_RANGE 0x03
+#define STOP 0x05
+#define MASTER_PIC 0x06
+#define MOTOR_ENCODER 0x07
+#define ALIGNMENT 0x08
+#define NO_ENCODER_DATA 0x09
+#define COMMAND_ACK 0x10
+#define COMMAND_NACK 0x11
+#define SENSOR_REQUEST 0x12
+#define ENCODER_REQUEST 0x13
+
 
 #endif
