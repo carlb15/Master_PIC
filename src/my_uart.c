@@ -80,6 +80,9 @@ void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
     for (; i < length + 1; i++) {
         uc_ptr->Tx_buffer[i] = msgbuffer[i];
     }
+
+    // Set UART TXF interrupt flag
+    PIE1bits.TX1IE = 0x1;
 }
 
 /**
@@ -109,23 +112,6 @@ void checkForValidMsgType(unsigned char data) {
 
     switch (msgtype) {
 
-        case COMMAND_ACK:
-            if (!msgtype_flag && data == COMMAND_ACK) {
-                uc_ptr->Rx_buffer[0] = data;
-                uc_ptr->Rx_buflen++;
-                msgtype_flag = 1;
-                msgtype = ACK_LENGTH;
-            }
-            break;
-
-        case COMMAND_NACK:
-            if (!msgtype_flag && data == COMMAND_NACK) {
-                uc_ptr->Rx_buffer[0] = data;
-                uc_ptr->Rx_buflen++;
-                msgtype_flag = 1;
-                msgtype = NACK_LENGTH;
-            }
-
         case SENSOR_REQUEST:
             if (!msgtype_flag && data == SENSOR_REQUEST) {
                 uc_ptr->Rx_buffer[0] = data;
@@ -136,8 +122,27 @@ void checkForValidMsgType(unsigned char data) {
             }
             break;
 
+        case COMMAND_ACK:
+            if (!msgtype_flag && data == COMMAND_ACK) {
+                uc_ptr->Rx_buffer[0] = data;
+                uc_ptr->Rx_buflen++;
+                msgtype_flag = 1;
+                msgtype = ACK_AND_NACK_LENGTH;
+            }
+            break;
+
+        case COMMAND_NACK:
+            if (!msgtype_flag && data == COMMAND_NACK) {
+                uc_ptr->Rx_buffer[0] = data;
+                uc_ptr->Rx_buflen++;
+                msgtype_flag = 1;
+                msgtype = ACK_AND_NACK_LENGTH;
+            }
+
         case MOTOR_COMMAND:
             if (!msgtype_flag && data == MOTOR_COMMAND) {
+                DEBUG_ON(UART_DBG);
+                DEBUG_OFF(UART_DBG);
                 uc_ptr->Rx_buffer[0] = data;
                 uc_ptr->Rx_buflen++;
                 msgtype_flag = 1;
@@ -152,79 +157,64 @@ void checkForValidMsgType(unsigned char data) {
                 uc_ptr->Rx_buflen++;
                 msgtype_flag = 1;
                 sendToMotorPIC_flag = 1;
-                msgtype = ENCODER_LENGTH;
+                msgtype = SENSOR_LENGTH;
             }
             break;
 
-        case ACK_LENGTH:
-            if (msgtype_flag && data == ACK_LENGTH) {
+        case ACK_AND_NACK_LENGTH:
+            if (msgtype_flag) {
                 // Move message state.
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msgtype = MESSAGE;
             } else {
-                // Move back to original command ACK state.
-                msgtype = COMMAND_ACK;
+                // Reset the message flags.
                 msgtype_flag = 0;
-            }
-            break;
-
-
-        case NACK_LENGTH:
-            if (msgtype_flag && data == NACK_LENGTH) {
-                // Move to message state
-                uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-                uc_ptr->Rx_buflen++;
-                msgtype = MESSAGE;
-            } else {
-                // Move back to original NACK state.
-                msgtype = COMMAND_NACK;
-                msgtype_flag = 0;
-            }
-            break;
-
-        case ENCODER_LENGTH:
-            if (msgtype_flag && sendToMotorPIC_flag) {
-                // Move to Check Sum State.
-                uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
-                uc_ptr->Rx_buflen++;
-                msg_flag = 1;
-                msgtype = CHECKSUM;
-            } else {
-                // Move back to original encoder request state.
-                msgtype = ENCODER_REQUEST;
-                msgtype_flag = 0;
+                sendToSensorPIC_flag = 0;
+                sendToMotorPIC_flag = 0;
+                uc_ptr->Rx_buflen = 0;
+                msg_flag = 0;
             }
             break;
 
         case SENSOR_LENGTH:
-            if (msgtype_flag && sendToSensorPIC_flag) {
+            if (msgtype_flag && (sendToSensorPIC_flag || sendToMotorPIC_flag)) {
                 // Move to check sum state.
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msg_flag = 1;
                 msgtype = CHECKSUM;
             } else {
-                // Move back to orignal sensor request state.
-                msgtype = SENSOR_REQUEST;
+                // Reset the message flags.
                 msgtype_flag = 0;
+                sendToSensorPIC_flag = 0;
+                sendToMotorPIC_flag = 0;
+                uc_ptr->Rx_buflen = 0;
+                msg_flag = 0;
             }
             break;
 
         case MOTOR_COMMAND_LENGTH:
             if (msgtype_flag && sendToMotorPIC_flag) {
+                DEBUG_ON(UART_DBG);
+                DEBUG_OFF(UART_DBG);
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msgtype = MESSAGE;
             } else {
-                // Move back to original motor command state.
-                msgtype = MOTOR_COMMAND;
+                // Reset the message flags.
                 msgtype_flag = 0;
+                sendToSensorPIC_flag = 0;
+                sendToMotorPIC_flag = 0;
+                uc_ptr->Rx_buflen = 0;
+                msg_flag = 0;
             }
             break;
 
         case MESSAGE:
             if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1] + 1) {
+                DEBUG_ON(UART_DBG);
+                DEBUG_OFF(UART_DBG);
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msg_flag = 1;
@@ -250,28 +240,27 @@ void checkForValidMsgType(unsigned char data) {
                     checkSum = 0x00;
                 } else {
                     // Check if the entire message was passsed correctly with checksum.F
-                    int i = 0;
-                    for (; i < uc_ptr->Rx_buffer[1] + 2; i++) {
+                    int i = 2;
+                    for (; i < bufLength + 2; i++) {
                         checkSum ^= uc_ptr->Rx_buffer[i];
                     }
                 }
 
                 // Send to a slave PIC or respond to ARM.
-                if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] || uc_ptr->Rx_buffer[0] == COMMAND_NACK) {
+                if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen - 1] || uc_ptr->Rx_buffer[0] == COMMAND_NACK) {
                     // TODO Respond to NACK
                     // Send request to ARM slave to resend message.
-
+                    ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (sendToSensorPIC_flag && uc_ptr->Rx_buffer[0] == SENSOR_REQUEST) {
-                    // TODO Send to Sensor PIC using I2C2
-
-                    //                    // Send sensor request to Sensor PIC.
-                    //                    ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_I2C_SEND, (void *) uc_ptr->Rx_buffer);
+                    // Return sensor data to ARM.
+                    ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (sendToMotorPIC_flag && (uc_ptr->Rx_buffer[0] == MOTOR_COMMAND || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST)) {
+                    DEBUG_ON(UART_DBG);
+                    DEBUG_OFF(UART_DBG);
                     // Send Motor Command or Encoder Request to Motor Controller PIC.
                     ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_MOTOR_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (uc_ptr->Rx_buffer[0] == MASTER_PIC) {
                     //TODO use or get rid of.
-                    uc_ptr->Rx_buflen = 0;
                 }
             }
             // Reset the message flags.

@@ -4,12 +4,6 @@
 #include "messages.h"
 
 #define MAXUARTBUF 10
-#define MOTOR_COMMAND 0x01
-#define SENSOR_LENGTH 0
-#define ENCODER_LENGTH 0
-#define MOTOR_COMMAND_LENGTH 3
-#define MESSAGE 4
-#define CHECKSUM 5
 
 
 #if (MAXUARTBUF > MSGLEN)

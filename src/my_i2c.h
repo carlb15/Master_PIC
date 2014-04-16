@@ -54,9 +54,9 @@ void i2c_int_handler_master_rx(void);
 void i2c_int_handler(void);
 void start_i2c_slave_reply(unsigned char, unsigned char *);
 void i2c_configure_slave(unsigned char);
-void i2c_configure_master(unsigned char);
-unsigned char i2c_master_send(unsigned char, unsigned char *);
-unsigned char i2c_master_recv(unsigned char);
+void i2c_configure_master();
+unsigned char i2c_master_send(unsigned char, unsigned char *, unsigned char);
+unsigned char i2c_master_recv(unsigned char, unsigned char);
 void readMessages();
 void i2c_start_communication(void);
 

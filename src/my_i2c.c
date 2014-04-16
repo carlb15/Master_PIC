@@ -9,6 +9,7 @@
 #include <plib/i2c.h>
 #endif
 #include "my_i2c.h"
+#include "debug.h"
 #include <string.h>
 
 static i2c_comm *ic_ptr;
@@ -47,19 +48,16 @@ unsigned char msgbuffer[20];
 // Configure for I2C Master mode -- the variable "slave_addr" should be stored in
 //   i2c_comm (as pointed to by ic_ptr) for later use.
 
-void i2c_configure_master(unsigned char slave_addr) {
-
-    ic_ptr->slave_addr = slave_addr;
+void i2c_configure_master() {
+    //ic_ptr->slave_addr = slave_addr;
     //no overflow,no collision, SSPEN =1, 4 =? , 1000 as master
     SSPCON1 = I2C_MASTER_MODE;
     // Enable I2C
     SSPCON1 |= I2C_ENABLE;
     //BRG 100KHz
     SSPADD = I2C_100KHZ;
-
     //counter to keep track which byte we are sending
-    ic_ptr->bufferCounterSend = 1;
-
+    //  ic_ptr->bufferCounterSend = 1;
 }
 
 // Sending in I2C Master mode [slave write]
@@ -74,7 +72,9 @@ void i2c_configure_master(unsigned char slave_addr) {
 // The subroutine must copy the msg to be sent from the "msg" parameter below into
 //   the structure to which ic_ptr points [there is already a suitable buffer there].
 
-unsigned char i2c_master_send(unsigned char length, unsigned char *msg) {
+unsigned char i2c_master_send(unsigned char length, unsigned char *msg, unsigned char slave_address) {
+
+    ic_ptr->slave_addr = slave_address;
 
     //check that bus is not currently transmitting
     if (ic_ptr->status != I2C_IDLE_) {
@@ -117,7 +117,10 @@ unsigned char i2c_master_send(unsigned char length, unsigned char *msg) {
 //   is determined by the parameter passed to i2c_master_recv()].
 // The interrupt handler will be responsible for copying the message received into
 
-unsigned char i2c_master_recv(unsigned char length) {
+unsigned char i2c_master_recv(unsigned char length, unsigned char slave_address) {
+
+    ic_ptr->slave_addr = slave_address;
+
     //check that bus is not currently transmitting
     if (ic_ptr->status != I2C_IDLE_) {
         return 0;
@@ -148,15 +151,21 @@ void i2c_int_handler() {
 }
 
 void i2c_int_handler_master_rx() {
+
     switch (ic_ptr->status) {
-            //loading the address after starting condition
+
         case I2C_START_COND_REC:
+        {
+            //loading the address after starting condition
             //load address in buffer
             SSPBUF = ic_ptr->slave_addr_rc;
             ic_ptr->status = I2C_ACK_ADD_SEND_REC;
             break;
-            //state to see if slave received the address..
+        };
+
         case I2C_ACK_ADD_SEND_REC:
+        {
+            //state to see if slave received the address..
             //ack  received from slave
             if (!SSPCON2bits.ACKSTAT) {
                 //master configured as a receiver
@@ -166,59 +175,85 @@ void i2c_int_handler_master_rx() {
             } else {
                 ic_ptr->status = I2C_ERR_NACK_ADD_REC;
             }
-
             break;
+        };
+
         case I2C_SEND_ACK:
+        {
             //read first byte
             ic_ptr->buffer[ic_ptr->bufferCounterRx] = SSPBUF;
             ic_ptr->bufferCounterRx++;
             if (ic_ptr->buflen == ic_ptr->bufferCounterRx) {
                 SSPCON2bits.ACKDT = 1;
                 SSPCON2bits.ACKEN = 1;
-
                 ic_ptr->status = I2C_AFTER_ACKEN;
             } else {
                 SSPCON2bits.ACKDT = 0;
                 SSPCON2bits.ACKEN = 1;
-
                 //now we are going to get another interrupt
                 ic_ptr->status = I2C_AFTER_SEND_ACK;
             }
             break;
-            // now we got an interrupt from the ack we sent
+        };
+
         case I2C_AFTER_SEND_ACK:
+        {
+            // now we got an interrupt from the ack we sent
             //master configured as a receiver
             SSPCON2bits.RCEN = 1;
             //send ACK in next status
             ic_ptr->status = I2C_SEND_ACK;
             break;
+        };
         case I2C_AFTER_ACKEN:
         {
             //sending stop bit
             SSPCON2bits.PEN = 1;
             ic_ptr->status = I2C_STOP_RX;
-
-        }
             break;
-
+        };
         case I2C_STOP_RX:
+        {
             ic_ptr->status = I2C_IDLE_;
+
+            if (ic_ptr->buffer[0] == 0x03) {
+                // Send sensor out of range to ARM PIC
+                ToMainLow_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
+            } else if (ic_ptr->buffer[0] == 0x05) {
+                // Send Stop command to Motorcontroller PIC
+                ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_MOTOR_SEND, (void *) ic_ptr->buffer);
+            } else if (ic_ptr->buffer[0] == 0x07) {
+                // Buffer Encoder data
+                ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
+            } else if (ic_ptr->buffer[0] == 0x08) {
+                //  Send Alignment command to Motorcontroller PIC
+                ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_MOTOR_SEND, (void *) ic_ptr->buffer);
+            }
             break;
-    }
+        };
+        default:
+        {
+            break;
+        };
+    };
 }
 
 void i2c_int_handler_master_tx() {
     // Starting bit raised first flag.. so we are ready to send address first after
     // I2C is enabled.
     switch (ic_ptr->status) {
-            //loading the address
+
         case I2C_START_COND:
-            //load address
+        {
+            //loading the address
             SSPBUF = ic_ptr->outbuffer[ic_ptr->outbufind];
             ic_ptr->status = I2C_ACK_ADD_SEND;
             break;
-            //this case checks the ack from the address sent
+        };
+
         case I2C_ACK_ADD_SEND:
+        {
+            //this case checks the ack from the address sent
             //ack  received from slave
             if (!SSPCON2bits.ACKSTAT) {
                 //clear ack
@@ -234,8 +269,11 @@ void i2c_int_handler_master_tx() {
                 ic_ptr->status = I2C_ERR_NACK_ADD;
             }
             break;
-            //now we check if the data was sent
+        };
+
         case I2C_ACK_DATA_SEND:
+        {
+            //now we check if the data was sent
             //ack  received from slave
             if (!SSPCON2bits.ACKSTAT) {
                 //clear flag
@@ -260,11 +298,17 @@ void i2c_int_handler_master_tx() {
                 ic_ptr->status = I2C_ERR_NACK_DATA;
             }
             break;
-
+        };
         case I2C_ACK_STOP:
+        {
             ic_ptr->status = I2C_IDLE_;
             break;
-    }
+        };
+        default:
+        {
+            break;
+        };
+    };
 }
 
 

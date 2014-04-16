@@ -104,9 +104,6 @@ void InterruptHandlerHigh() {
         timer0_int_handler();
     }
 
-
-    // here is where you would check other interrupt flags.
-
     // The *last* thing I do here is check to see if we can
     // allow the processor to go to sleep
     // This code *DEPENDS* on the code in messages.c being

@@ -1,4 +1,5 @@
 #include "maindefs.h"
+#include "sensor_thread.h"
 #include <stdio.h>
 #ifndef __XC8
 #define USE_OR_MASKS
@@ -16,12 +17,12 @@
 #include "messages.h"
 #include "my_uart.h"
 #include "my_i2c.h"
-#include "uart_thread.h"
+#include "arm_thread.h"
 #include "timer1_thread.h"
 #include "timer0_thread.h"
 #include "debug.h"
-#include "i2c_thread.h"
-
+#include "motor_thread.h"
+#include "sensor_thread.h"
 
 //Setup configuration registers
 #ifdef __USE18F45J10
@@ -194,8 +195,10 @@ void main(void) {
     unsigned char msgbuffer[MSGLEN + 1];
     unsigned char i;
     timer1_thread_struct t1thread_data; // info for timer1_lthread
-    motor_thread_struct motor_thread_data; // info for i2c_lthread
-    
+    sensor_thread_struct sensor_thread_data; // info for sensor_lthread
+    motor_thread_struct motor_thread_data; // info for motor_lthread
+    arm_thread_struct arm_thread_data; // info for arm_lthread
+
 
 #ifdef __USE18F2680
     OSCCON = 0xFC; // see datasheet
@@ -204,7 +207,7 @@ void main(void) {
 #else
 #ifdef __USE18F45J10
     OSCCON = 0x82; // see datasheeet
-    OSCTUNEbits.PLLEN = 1; // Makes the clock exceed the PIC's rated speed if the PLL is on
+    OSCTUNEbits.PLLEN = 0; // Makes the clock exceed the PIC's rated speed if the PLL is on
 #else
 #ifdef __USE18F26J50
     OSCCON = 0xE0; // see datasheeet
@@ -221,6 +224,9 @@ void main(void) {
 #endif
 #endif
 
+
+    // initializes the sensor lthread
+    init_sensor_lthread(&sensor_thread_data);
 
     // initialize my uart recv handling code
     init_uart_recv(&uc);
@@ -240,8 +246,22 @@ void main(void) {
     LATB = 0x0;
 #endif
 
+
+    // Setup PORTA for debug pins.
+    TRISBbits.RB1 = 0;
+    TRISBbits.RB2 = 0;
+    TRISBbits.RB3 = 0;
+    TRISBbits.RB4 = 0;
+    TRISBbits.RB5 = 0;
+    LATBbits.LATB1 = 0;
+    LATBbits.LATB2 = 0;
+    LATBbits.LATB3 = 0;
+    LATBbits.LATB4 = 0;
+    LATBbits.LATB5 = 0;
+
+
     // initialize Timers
-    OpenTimer0(TIMER_INT_ON & T0_8BIT & T0_SOURCE_INT & T0_PS_1_16);
+    OpenTimer0(TIMER_INT_ON & T0_16BIT & T0_SOURCE_INT & T0_PS_1_8);
 
 
 #ifdef __USE18F26J50
@@ -251,7 +271,7 @@ void main(void) {
 #ifdef __USE18F46J50
     OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x0);
 #else
-    OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
+    //  OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
 #endif
 #endif
 
@@ -266,22 +286,15 @@ void main(void) {
     // I2C interrupt
     IPR1bits.SSPIP = 1;
 
+    // Configure I2C as master
+    unsigned char motor_slave_address = 0x9E;
+    unsigned char sensor_slave_address = 0x9A;
 
-
-#if 1
-    unsigned char slave_address = 0x9E;
-    i2c_configure_master(slave_address);
-
-#ifdef __USE18F2680
-    LATBbits.LATB1 = 1;
-    LATBbits.LATB0 = 1;
-    LATBbits.LATB2 = 1;
-#endif
-    for (;;);
-#endif
+    i2c_configure_master();
 
     // must specifically enable the I2C interrupts
     PIE1bits.SSPIE = 1;
+
 
     // configure the hardware USART device
 #ifdef __USE18F26J50
@@ -297,7 +310,7 @@ void main(void) {
     // Calculated Baud Rate = 48MHz / (4*(624 + 1)) = 19200
     // Error (19200 - 19200) / 19200 = 0
     OpenUSART(USART_TX_INT_OFF & USART_RX_INT_ON & USART_ASYNCH_MODE & USART_EIGHT_BIT &
-            USART_CONT_RX & USART_BRGH_HIGH, 155);
+            USART_CONT_RX & USART_BRGH_HIGH, 39);
     BAUDCONbits.BRG16 = 0;
     RCSTAbits.SPEN = 1;
     RCSTAbits.CREN = 1;
@@ -315,6 +328,7 @@ void main(void) {
     // they can be equated with the tasks in your task diagram if you
     // structure them properly.
     while (1) {
+
         // Call a routine that blocks until either on the incoming
         // messages queues has a message (this may put the processor into
         // an idle mode)
@@ -328,33 +342,46 @@ void main(void) {
         if (length < 0) {
             // no message, check the error code to see if it is concern
             if (length != MSGQUEUE_EMPTY) {
-                printf("Error: No message in high-priority queue.");
+                //printf("Error: No message in high-priority queue.");
             }
         } else {
             switch (msgtype) {
 
+                case MSGT_TIMER0:
+                {
+                    DEBUG_ON(I2C_DBG);
+                    DEBUG_OFF(I2C_DBG);
+                    sensor_lthread(&sensor_thread_data, MSGT_SENSOR_SEND, length, msgbuffer, sensor_slave_address);
+                    break;
+                };
+                case MSGT_SENSOR_RCV:
+                {
+                    DEBUG_ON(I2C_DBG);
+                    DEBUG_OFF(I2C_DBG);
+                    DEBUG_ON(I2C_DBG);
+                    DEBUG_OFF(I2C_DBG);
+                    sensor_lthread(&sensor_thread_data, msgtype, length, msgbuffer, sensor_slave_address);
+                    break;
+                };
                 case MSGT_MOTOR_SEND:
                 {
-                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer);
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
+                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer, motor_slave_address);
                     break;
                 };
                 case MSGT_MOTOR_RCV:
                 {
-                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer);
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
+                    motor_thread(&motor_thread_data, msgtype, length, msgbuffer, motor_slave_address);
                     break;
-                };
-                case MSGT_UART_DATA:
-                {
-                    arm_lthread(&uart_thread_struct, msgtype, length, msgbuffer);
-                    break;
-                };
-                case MSGT_ARM_RCV:
-                {
-                    arm_lthread()
                 };
                 default:
                 {
-                    printf("Error: End of high-priority queue.");
+                    //printf("Error: End of high-priority queue.");
                     break;
                 };
             };
@@ -362,5 +389,35 @@ void main(void) {
 
         // Check the low priority queue
         length = ToMainLow_recvmsg(MSGLEN, &msgtype, (void *) msgbuffer);
+        if (length < 0) {
+            // no message, check the error code to see if it is concern
+            if (length != MSGQUEUE_EMPTY) {
+                //printf("Error: No message in low-priority queue");
+            }
+        } else {
+            switch (msgtype) {
+                case MSGT_ARM_SEND:
+                {
+//                    DEBUG_ON(UART_DBG);
+//                    DEBUG_OFF(UART_DBG);
+                    arm_lthread(&arm_thread_data, msgtype, length, msgbuffer);
+                    break;
+                };
+                case MSGT_ARM_RCV:
+                {
+//                    DEBUG_ON(UART_DBG);
+//                    DEBUG_OFF(UART_DBG);
+//                    DEBUG_ON(UART_DBG);
+//                    DEBUG_OFF(UART_DBG);
+                    arm_lthread(&arm_thread_data, msgtype, length, msgbuffer);
+                    break;
+                };
+                default:
+                {
+                    //printf("Error: End of low-priority queue.");
+                    break;
+                };
+            };
+        }
     }
 }

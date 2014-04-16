@@ -9,7 +9,7 @@
 // It is not a "real" thread because there is only the single main thread
 // of execution on the PIC because we are not using an RTOS.
 
-int uart_lthread(uart_thread_struct *uptr, int msgtype, int length, unsigned char *msgbuffer) {
+int uart_lthread(arm_thread_struct *uptr, int msgtype, int length, unsigned char *msgbuffer) {
     if (msgtype == MSGT_OVERRUN) {
         // TODO handle when buffer overruns.
     } else if (msgtype == MSGT_UART_DATA) {

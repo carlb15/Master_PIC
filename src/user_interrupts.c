@@ -10,13 +10,20 @@
 #include "user_interrupts.h"
 #include "messages.h"
 #include "debug.h"
+#include "sensor_thread.h"
+#include "arm_thread.h"
+
 
 // A function called by the interrupt handler
 // This one does the action I wanted for this program on a timer0 interrupt
 
 void timer0_int_handler() {
+    DEBUG_ON(TMR0_DBG);
+    DEBUG_OFF(TMR0_DBG);
     // reset the timer
     WriteTimer0(0);
+    // Send a sensor request every 43 ms.
+    ToMainHigh_sendmsg(0, MSGT_TIMER0, (void *) 0);
 }
 
 // A function called by the interrupt handler
@@ -31,7 +38,6 @@ void timer1_int_handler() {
 #endif
 
     result = ReadTimer1();
-    //    ToMainLow_sendmsg(0, MSGT_TIMER1, (void *) 0);
 
     // reset the timer
     WriteTimer1(0);

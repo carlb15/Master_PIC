@@ -14,9 +14,11 @@
 #define DO_DEBUG
 //      Use definitions to make debugging configurable
 
-#define I2C_SEND_DBG LATBbits.LATB1
-#define TMR0_DBG LATBbits.LATB2
-#define MOTOR_DBG LATBbits.LATB3
+#define I2C_DBG LATBbits.LATB5
+#define UART_DBG LATBbits.LATB4
+#define TMR0_DBG LATBbits.LATB3
+#define SENSOR_DBG LATBbits.LATB2
+#define MOTOR_DBG LATBbits.LATB1
 
 //      Define our debugging functions
 #ifdef  DO_DEBUG
