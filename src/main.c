@@ -398,17 +398,17 @@ void main(void) {
             switch (msgtype) {
                 case MSGT_ARM_SEND:
                 {
-//                    DEBUG_ON(UART_DBG);
-//                    DEBUG_OFF(UART_DBG);
+                    DEBUG_ON(UART_DBG);
+                    DEBUG_OFF(UART_DBG);
                     arm_lthread(&arm_thread_data, msgtype, length, msgbuffer);
                     break;
                 };
                 case MSGT_ARM_RCV:
                 {
-//                    DEBUG_ON(UART_DBG);
-//                    DEBUG_OFF(UART_DBG);
-//                    DEBUG_ON(UART_DBG);
-//                    DEBUG_OFF(UART_DBG);
+                    DEBUG_ON(UART_DBG);
+                    DEBUG_OFF(UART_DBG);
+                    DEBUG_ON(UART_DBG);
+                    DEBUG_OFF(UART_DBG);
                     arm_lthread(&arm_thread_data, msgtype, length, msgbuffer);
                     break;
                 };

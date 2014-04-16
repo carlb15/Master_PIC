@@ -217,15 +217,41 @@ void i2c_int_handler_master_rx() {
             ic_ptr->status = I2C_IDLE_;
 
             if (ic_ptr->buffer[0] == 0x03) {
+                DEBUG_ON(SENSOR_DBG);
+                DEBUG_OFF(SENSOR_DBG);
                 // Send sensor out of range to ARM PIC
                 ToMainLow_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
             } else if (ic_ptr->buffer[0] == 0x05) {
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
                 // Send Stop command to Motorcontroller PIC
                 ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_MOTOR_SEND, (void *) ic_ptr->buffer);
             } else if (ic_ptr->buffer[0] == 0x07) {
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
                 // Buffer Encoder data
-                ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
+                ToMainLow_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
             } else if (ic_ptr->buffer[0] == 0x08) {
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
+//
+//                DEBUG_ON(SENSOR_DBG);
+//                DEBUG_OFF(SENSOR_DBG);
                 //  Send Alignment command to Motorcontroller PIC
                 ToMainHigh_sendmsg(ic_ptr->bufferCounterRx, MSGT_MOTOR_SEND, (void *) ic_ptr->buffer);
             }

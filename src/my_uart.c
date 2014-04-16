@@ -141,8 +141,6 @@ void checkForValidMsgType(unsigned char data) {
 
         case MOTOR_COMMAND:
             if (!msgtype_flag && data == MOTOR_COMMAND) {
-                DEBUG_ON(UART_DBG);
-                DEBUG_OFF(UART_DBG);
                 uc_ptr->Rx_buffer[0] = data;
                 uc_ptr->Rx_buflen++;
                 msgtype_flag = 1;
@@ -196,8 +194,7 @@ void checkForValidMsgType(unsigned char data) {
 
         case MOTOR_COMMAND_LENGTH:
             if (msgtype_flag && sendToMotorPIC_flag) {
-                DEBUG_ON(UART_DBG);
-                DEBUG_OFF(UART_DBG);
+
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msgtype = MESSAGE;
@@ -213,8 +210,7 @@ void checkForValidMsgType(unsigned char data) {
 
         case MESSAGE:
             if (uc_ptr->Rx_buflen == uc_ptr->Rx_buffer[1] + 1) {
-                DEBUG_ON(UART_DBG);
-                DEBUG_OFF(UART_DBG);
+
                 uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
                 uc_ptr->Rx_buflen++;
                 msg_flag = 1;
@@ -255,8 +251,7 @@ void checkForValidMsgType(unsigned char data) {
                     // Return sensor data to ARM.
                     ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (sendToMotorPIC_flag && (uc_ptr->Rx_buffer[0] == MOTOR_COMMAND || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST)) {
-                    DEBUG_ON(UART_DBG);
-                    DEBUG_OFF(UART_DBG);
+
                     // Send Motor Command or Encoder Request to Motor Controller PIC.
                     ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_MOTOR_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (uc_ptr->Rx_buffer[0] == MASTER_PIC) {
