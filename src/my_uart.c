@@ -108,9 +108,21 @@ void checkForValidMsgType(unsigned char data) {
     } else if (!msgtype_flag && data == ENCODER_REQUEST) {
         // Initial encoder request
         msgtype = ENCODER_REQUEST;
+    } else if (!msgtype_flag && data == STOP) {
+        // Intial stop command
+        msgtype = STOP;
     }
 
     switch (msgtype) {
+        case STOP:
+            if (!msgtype_flag && data == STOP) {
+                uc_ptr->Rx_buffer[0] = data;
+                uc_ptr->Rx_buflen++;
+                msgtype_flag = 1;
+                sendToMotorPIC_flag = 1;
+                msgtype = STOP_LENGTH;
+            }
+            break;
 
         case SENSOR_REQUEST:
             if (!msgtype_flag && data == SENSOR_REQUEST) {
@@ -156,6 +168,16 @@ void checkForValidMsgType(unsigned char data) {
                 msgtype_flag = 1;
                 sendToMotorPIC_flag = 1;
                 msgtype = SENSOR_LENGTH;
+            }
+            break;
+
+        case STOP_LENGTH:
+            if (msgtype_flag) {
+                // Move to checksum.
+                uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = data;
+                uc_ptr->Rx_buflen++;
+                msg_flag = 1;
+                msgtype = CHECKSUM;
             }
             break;
 
@@ -231,7 +253,7 @@ void checkForValidMsgType(unsigned char data) {
                 unsigned char checkSum = 0;
                 unsigned char bufLength = uc_ptr->Rx_buffer[1];
 
-                if (bufLength == 0 && (uc_ptr->Rx_buffer[0] == MASTER_PIC || uc_ptr->Rx_buffer[0] == SENSOR_REQUEST || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST)) {
+                if (bufLength == 0 && (uc_ptr->Rx_buffer[0] == MASTER_PIC || uc_ptr->Rx_buffer[0] == SENSOR_REQUEST || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST || uc_ptr->Rx_buffer[0] == STOP)) {
                     // Check for sensor requests.
                     checkSum = 0x00;
                 } else {
@@ -250,9 +272,8 @@ void checkForValidMsgType(unsigned char data) {
                 } else if (sendToSensorPIC_flag && uc_ptr->Rx_buffer[0] == SENSOR_REQUEST) {
                     // Return sensor data to ARM.
                     ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
-                } else if (sendToMotorPIC_flag && (uc_ptr->Rx_buffer[0] == MOTOR_COMMAND || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST)) {
-
-                    // Send Motor Command or Encoder Request to Motor Controller PIC.
+                } else if (sendToMotorPIC_flag && (uc_ptr->Rx_buffer[0] == MOTOR_COMMAND || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST || uc_ptr->Rx_buffer[0] == STOP)) {
+                    // Send Motor Commands or Encoder Request to Motor Controller PIC.
                     ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_MOTOR_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (uc_ptr->Rx_buffer[0] == MASTER_PIC) {
                     //TODO use or get rid of.

@@ -79,5 +79,5 @@
 #define MOTOR_COMMAND_LENGTH 0x16
 #define MESSAGE 0x17
 #define CHECKSUM 0x18
-
+#define STOP_LENGTH 0x19
 #endif
