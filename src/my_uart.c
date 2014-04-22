@@ -23,7 +23,7 @@ void uart_recv_int_handler() {
 #else
 #ifdef __USE18F46J50
     if (DataRdy1USART()) {
-        uc_ptr->Rx_buffer[uc_ptr->Rx_buflen] = Read1USART();
+        char data = Read1USART();
 #else
     if (DataRdyUSART()) {
 
@@ -59,7 +59,7 @@ void uart_send_int_handler() {
         PIE1bits.TX1IE = 0; // Clear TXIE to end write.
         uc_ptr->Tx_buflen = 0;
     } else {
-        WriteUSART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
+        Write1USART(uc_ptr->Tx_buffer[uc_ptr->Tx_buflen]);
         uc_ptr->Tx_buflen++;
     }
 }

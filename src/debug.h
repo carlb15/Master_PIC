@@ -16,7 +16,7 @@
 
 #define I2C_DBG LATBbits.LATB5
 #define UART_DBG LATBbits.LATB4
-#define TMR0_DBG LATBbits.LATB3
+#define TMR_DBG LATBbits.LATB3
 #define SENSOR_DBG LATBbits.LATB2
 #define MOTOR_DBG LATBbits.LATB1
 

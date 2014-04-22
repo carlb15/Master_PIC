@@ -215,7 +215,7 @@ void main(void) {
 #else
 #ifdef __USE18F46J50
     OSCCON = 0xE0; //see datasheet
-    OSCTUNEbits.PLLEN = 1;
+    OSCTUNEbits.PLLEN = 0;
 #else
     //Something is messed up.
     //       The PIC selected is not supported or the preprocessor directives are wrong.
@@ -248,30 +248,28 @@ void main(void) {
 
 
     // Setup PORTA for debug pins.
-    TRISBbits.RB1 = 0;
-    TRISBbits.RB2 = 0;
-    TRISBbits.RB3 = 0;
-    TRISBbits.RB4 = 0;
-    TRISBbits.RB5 = 0;
+    TRISBbits.TRISB1 = 0;
+    TRISBbits.TRISB2 = 0;
+    TRISBbits.TRISB3 = 0;
+    TRISBbits.TRISB4 = 0;
+    TRISBbits.TRISB5 = 0;
     LATBbits.LATB1 = 0;
     LATBbits.LATB2 = 0;
     LATBbits.LATB3 = 0;
     LATBbits.LATB4 = 0;
     LATBbits.LATB5 = 0;
 
-
     // initialize Timers
     OpenTimer0(TIMER_INT_ON & T0_16BIT & T0_SOURCE_INT & T0_PS_1_8);
-
 
 #ifdef __USE18F26J50
     // MTJ added second argument for OpenTimer1()
     OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x0);
 #else
 #ifdef __USE18F46J50
-    OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x0);
+   // OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x8000);
 #else
-    //  OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
+    OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
 #endif
 #endif
 
@@ -303,7 +301,10 @@ void main(void) {
 #else
 #ifdef __USE18F46J50
     Open1USART(USART_TX_INT_OFF & USART_RX_INT_ON & USART_ASYNCH_MODE & USART_EIGHT_BIT &
-            USART_CONT_RX & USART_BRGH_LOW, 0x19);
+            USART_CONT_RX & USART_BRGH_HIGH, 39);
+    BAUDCONbits.BRG16 = 0;
+    RCSTAbits.SPEN = 1;
+    RCSTAbits.CREN = 1;
 #else
     // Configuration Details:
     // Solve for SPBRG = ((48Mhz/19200)/16)-1 = 155
@@ -354,10 +355,18 @@ void main(void) {
                     sensor_lthread(&sensor_thread_data, MSGT_SENSOR_SEND, length, msgbuffer, sensor_slave_address);
                     break;
                 };
+                case MSGT_TIMER1:
+                {
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
+                    motor_thread(&motor_thread_data, MSGT_MOTOR_SEND, length, msgbuffer, motor_slave_address);
+                    break;
+                };
                 case MSGT_SENSOR_RCV:
                 {
                     DEBUG_ON(I2C_DBG);
                     DEBUG_OFF(I2C_DBG);
+
                     DEBUG_ON(I2C_DBG);
                     DEBUG_OFF(I2C_DBG);
                     sensor_lthread(&sensor_thread_data, msgtype, length, msgbuffer, sensor_slave_address);
@@ -367,6 +376,9 @@ void main(void) {
                 {
                     DEBUG_ON(MOTOR_DBG);
                     DEBUG_OFF(MOTOR_DBG);
+
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
                     motor_thread(&motor_thread_data, msgtype, length, msgbuffer, motor_slave_address);
                     break;
                 };
@@ -374,6 +386,10 @@ void main(void) {
                 {
                     DEBUG_ON(MOTOR_DBG);
                     DEBUG_OFF(MOTOR_DBG);
+
+                    DEBUG_ON(MOTOR_DBG);
+                    DEBUG_OFF(MOTOR_DBG);
+
                     DEBUG_ON(MOTOR_DBG);
                     DEBUG_OFF(MOTOR_DBG);
                     motor_thread(&motor_thread_data, msgtype, length, msgbuffer, motor_slave_address);
