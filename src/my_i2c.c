@@ -24,7 +24,9 @@ unsigned char msgbuffer[20];
  *  SSPADD = (48000000 / (4*100000))-1; //for a 48 MHz clock
  *
  */
-#define I2C_100KHZ 0x77 // 28 before
+//#define I2C_100KHZ 0x77 // 28 before
+#define I2C_100KHZ 0x77
+
 
 #define I2C_ENABLE_SLEW 0b00000000 // Sets SMP to 0, which is enabled
 #define I2C_DISABLE_SLEW 0b10000000 // Sets SMP to 1, which is disabled
@@ -39,8 +41,8 @@ unsigned char msgbuffer[20];
  * The following are bits that should be bitwise or'd
  * to set certain conditions for I2C.
  */
-#define I2C_MASTER_MODE 0b00001000
-#define I2C_ENABLE 0b00100000 // Sets SSPEN to 1, which is enabled
+#define I2C_MASTER_MODE 8b00001000
+#define I2C_ENABLE 8b00100000 // Sets SSPEN to 1, which is enabled
 
 //uart_thread_struct uthread_data; // info for uart_lthread
 //timer1_thread_struct t1thread_data; // info for timer1_lthread
@@ -49,15 +51,16 @@ unsigned char msgbuffer[20];
 //   i2c_comm (as pointed to by ic_ptr) for later use.
 
 void i2c_configure_master() {
-    //ic_ptr->slave_addr = slave_addr;
+    TRISBbits.TRISB4 = 1;
+    TRISBbits.TRISB5 = 1;
     //no overflow,no collision, SSPEN =1, 4 =? , 1000 as master
     SSPCON1 = I2C_MASTER_MODE;
     // Enable I2C
     SSPCON1 |= I2C_ENABLE;
+    PORTBbits.SCL1 = 1;
+    PORTBbits.SDA1 = 1;
     //BRG 100KHz
     SSPADD = I2C_100KHZ;
-    //counter to keep track which byte we are sending
-    //  ic_ptr->bufferCounterSend = 1;
 }
 
 // Sending in I2C Master mode [slave write]
@@ -219,6 +222,7 @@ void i2c_int_handler_master_rx() {
             if (ic_ptr->buffer[0] == 0x03) {
                 DEBUG_ON(SENSOR_DBG);
                 DEBUG_OFF(SENSOR_DBG);
+
                 // Send sensor out of range to ARM PIC
                 ToMainLow_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
             } else if (ic_ptr->buffer[0] == 0x05) {
@@ -238,7 +242,7 @@ void i2c_int_handler_master_rx() {
 
                 DEBUG_ON(SENSOR_DBG);
                 DEBUG_OFF(SENSOR_DBG);
-                // Buffer Encoder data
+                // Send Encoder data to ARM
                 ToMainLow_sendmsg(ic_ptr->bufferCounterRx, MSGT_ARM_SEND, (void *) ic_ptr->buffer);
             } else if (ic_ptr->buffer[0] == 0x08) {
                 DEBUG_ON(SENSOR_DBG);

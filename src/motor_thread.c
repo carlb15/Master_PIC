@@ -12,8 +12,8 @@
 int motor_thread(motor_thread_struct *motorptr, int msgtype, int length, unsigned char* msgbuffer, unsigned char slave_address) {
 
     if (msgtype == MSGT_MOTOR_SEND) {
+
         // Send a command to the motorcontroller
-        // Send a motor command.
         if (i2c_master_send(length, msgbuffer, slave_address) == 0) {
             ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
         } else {

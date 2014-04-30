@@ -69,6 +69,18 @@ void init_uart_recv(uart_comm *uc) {
     uc_ptr->Tx_buflen = 0;
     uc_ptr->Rx_buflen = 0;
     uc_ptr->msg_length = 0;
+
+    // Intialize NACK buffer
+    uc_ptr->nack_buffer[0] = 0x11;
+    uc_ptr->nack_buffer[1] = 0x01;
+    uc_ptr->nack_buffer[2] = 0x03;
+    uc_ptr->nack_buffer[3] = 0x03;
+
+    // Intialize ACK buffer
+    uc_ptr->ack_buffer[0] = 0x10;
+    uc_ptr->ack_buffer[1] = 0x01;
+    uc_ptr->ack_buffer[2] = 0x03;
+    uc_ptr->ack_buffer[3] = 0x03;
 }
 
 void uart_retrieve_buffer(int length, unsigned char* msgbuffer) {
@@ -253,9 +265,12 @@ void checkForValidMsgType(unsigned char data) {
                 unsigned char checkSum = 0;
                 unsigned char bufLength = uc_ptr->Rx_buffer[1];
 
-                if (bufLength == 0 && (uc_ptr->Rx_buffer[0] == MASTER_PIC || uc_ptr->Rx_buffer[0] == SENSOR_REQUEST || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST || uc_ptr->Rx_buffer[0] == STOP)) {
+                if (bufLength == 0 && (uc_ptr->Rx_buffer[0] == SENSOR_REQUEST || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST || uc_ptr->Rx_buffer[0] == STOP)) {
                     // Check for sensor requests.
                     checkSum = 0x00;
+                } else if (uc_ptr->Rx_buflen != uc_ptr->Rx_buffer[1] + 3) {
+                    // Message has been scrambled.
+                    uc_ptr->Rx_buffer[0] == COMMAND_NACK;
                 } else {
                     // Check if the entire message was passsed correctly with checksum.F
                     int i = 2;
@@ -266,17 +281,16 @@ void checkForValidMsgType(unsigned char data) {
 
                 // Send to a slave PIC or respond to ARM.
                 if (checkSum != uc_ptr->Rx_buffer[uc_ptr->Rx_buflen - 1] || uc_ptr->Rx_buffer[0] == COMMAND_NACK) {
-                    // TODO Respond to NACK
                     // Send request to ARM slave to resend message.
-                    ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
+                    ToMainLow_sendmsg(uc_ptr->Tx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Tx_buffer);
                 } else if (sendToSensorPIC_flag && uc_ptr->Rx_buffer[0] == SENSOR_REQUEST) {
                     // Return sensor data to ARM.
                     ToMainLow_sendmsg(uc_ptr->Rx_buflen, MSGT_ARM_SEND, (void *) uc_ptr->Rx_buffer);
                 } else if (sendToMotorPIC_flag && (uc_ptr->Rx_buffer[0] == MOTOR_COMMAND || uc_ptr->Rx_buffer[0] == ENCODER_REQUEST || uc_ptr->Rx_buffer[0] == STOP)) {
                     // Send Motor Commands or Encoder Request to Motor Controller PIC.
                     ToMainHigh_sendmsg(uc_ptr->Rx_buflen, MSGT_MOTOR_SEND, (void *) uc_ptr->Rx_buffer);
-                } else if (uc_ptr->Rx_buffer[0] == MASTER_PIC) {
-                    //TODO use or get rid of.
+                    // Return an ACK to the ARM Slave.
+                    ToMainLow_sendmsg(MAXACKBUF, MSGT_ARM_SEND, (void *) uc_ptr->ack_buffer);
                 }
             }
             // Reset the message flags.
@@ -290,5 +304,4 @@ void checkForValidMsgType(unsigned char data) {
         default:
             break;
     }
-
 }

@@ -4,7 +4,8 @@
 #include "messages.h"
 
 #define MAXUARTBUF 10
-
+#define MAXNACKBUF 4
+#define MAXACKBUF 4
 
 #if (MAXUARTBUF > MSGLEN)
 #define MAXUARTBUF MSGLEN
@@ -13,6 +14,8 @@
 typedef struct __uart_comm {
     unsigned char Tx_buffer[MAXUARTBUF];
     unsigned char Rx_buffer[MAXUARTBUF];
+    unsigned char nack_buffer[MAXNACKBUF];
+    unsigned char ack_buffer[MAXNACKBUF];
     unsigned char Tx_buflen;
     unsigned char Rx_buflen;
     unsigned char msg_length;

@@ -25,7 +25,7 @@ int sensor_lthread(sensor_thread_struct *sensorptr, int msgtype, int length, uns
         if (i2c_master_send(length, buf, slave_address) == 0) {
             ToMainHigh_sendmsg(length, msgtype, (void *) msgbuffer);
         } else {
-            // Retrieve data from the Motorcontroller PIC.
+            // Retrieve data from the Sensor PIC.
             ToMainHigh_sendmsg(length, MSGT_SENSOR_RCV, (void *) msgbuffer);
         }
     } else if (msgtype == MSGT_SENSOR_RCV) {

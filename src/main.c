@@ -247,17 +247,17 @@ void main(void) {
 #endif
 
 
-    // Setup PORTA for debug pins.
-    TRISBbits.TRISB1 = 0;
-    TRISBbits.TRISB2 = 0;
-    TRISBbits.TRISB3 = 0;
-    TRISBbits.TRISB4 = 0;
-    TRISBbits.TRISB5 = 0;
-    LATBbits.LATB1 = 0;
-    LATBbits.LATB2 = 0;
-    LATBbits.LATB3 = 0;
-    LATBbits.LATB4 = 0;
-    LATBbits.LATB5 = 0;
+    //    // Setup PORTA for debug pins.
+    //    TRISBbits.TRISB1 = 0;
+    //    TRISBbits.TRISB2 = 0;
+    //    TRISBbits.TRISB3 = 0;
+    //    TRISBbits.TRISB4 = 0;
+    //    TRISBbits.TRISB5 = 0;
+    //    LATBbits.LATB1 = 0;
+    //    LATBbits.LATB2 = 0;
+    //    LATBbits.LATB3 = 0;
+    //    LATBbits.LATB4 = 0;
+    //    LATBbits.LATB5 = 0;
 
     // initialize Timers
     OpenTimer0(TIMER_INT_ON & T0_16BIT & T0_SOURCE_INT & T0_PS_1_8);
@@ -267,7 +267,7 @@ void main(void) {
     OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x0);
 #else
 #ifdef __USE18F46J50
-   // OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x8000);
+    // OpenTimer1(TIMER_INT_ON & T1_SOURCE_FOSC_4 & T1_PS_1_8 & T1_16BIT_RW & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF, 0x8000);
 #else
     OpenTimer1(TIMER_INT_ON & T1_PS_1_8 & T1_16BIT_RW & T1_SOURCE_INT & T1_OSC1EN_OFF & T1_SYNC_EXT_OFF);
 #endif
